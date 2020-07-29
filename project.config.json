@@ -1,0 +1,223 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": false,
+		"newFeature": true,
+		"coverView": true,
+		"nodeModules": false,
+		"autoAudits": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": true,
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"enhance": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.5.2",
+	"appid": "wxc04c020deeb8c417",
+	"projectname": "FireFight_megalo",
+	"miniprogramRoot": "dist-wechat/",
+	"cloudfunctionTemplateRoot": "",
+	"watchOptions": {
+		"ignore": []
+	},
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"scripts": {},
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "错误页面",
+					"pathName": "pages/errors/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "个人页面",
+					"pathName": "pages/info/index",
+					"query": "tab=mine",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "首页",
+					"pathName": "pages/home/index",
+					"query": "tab=home",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "登录",
+					"pathName": "pages/login/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 4,
+					"name": "定位选择",
+					"pathName": "pages/position/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "发送位置",
+					"pathName": "pages/position/sendPosition",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 6,
+					"name": "数据检测",
+					"pathName": "pages/detection/index",
+					"query": "tab=home",
+					"scene": null
+				},
+				{
+					"id": 7,
+					"name": "确定信息",
+					"pathName": "pages/information/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "设备列表",
+					"pathName": "pages/equipmentlist/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 9,
+					"name": "警报异常",
+					"pathName": "pages/alarmpage/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 10,
+					"name": "数据详情",
+					"pathName": "pages/dataDetail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 11,
+					"name": "查看监控",
+					"pathName": "pages/monitorpage/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 12,
+					"name": "重置密码",
+					"pathName": "pages/forgetpwd/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 13,
+					"name": "一键报警",
+					"pathName": "pages/alarmperson/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 14,
+					"name": "安装维保",
+					"pathName": "pages/installpage/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 15,
+					"name": "历史警报记录",
+					"pathName": "pages/warnpage/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 16,
+					"name": "巡更记录",
+					"pathName": "pages/watchList/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 17,
+					"name": "任务详情",
+					"pathName": "pages/taskDetail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 17,
+					"name": "异常上报",
+					"pathName": "pages/taskUpload/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 18,
+					"name": "设备巡更",
+					"pathName": "pages/watchTask/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 19,
+					"name": "首页",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "消防检测",
+					"pathName": "pages/examine/index",
+					"query": "",
+					"scene": null
+				}
+			]
+		}
+	}
+}
