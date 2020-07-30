@@ -7,9 +7,9 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarBackgroundColor: '#1D7FFD',
+    navigationBarBackgroundColor: '#FE306B',
     navigationBarTextStyle: 'white',
-    navigationBarTitleText: 'You-Link万物智联',
-    backgroundColor: '#FFFEFB',
+    navigationBarTitleText: '榜单',
+    backgroundColor: '#FE306B',
   }
 }

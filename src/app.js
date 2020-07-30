@@ -24,8 +24,8 @@ export default {
   config: {
     cloud: true,
     pages: [
-      "pages/index/index", //首页
       "pages/home/index", // home
+      "pages/index/index", //首页
       "pages/warnpage/index", // 一键报警
       "pages/installpage/index", // 一键报警
       "pages/alarmperson/index", // 一键报警
@@ -55,10 +55,11 @@ export default {
     },
     window: {
       backgroundTextStyle: "light",
-      navigationBarBackgroundColor: "#fffefb",
+      navigationBarBackgroundColor: "#FE306B",
       navigationBarTitleText: "消防检测",
       navigationBarTextStyle: "white",
-      backgroundColor: "#fffefb"
+      backgroundColor: "#FE306B",
+      // navigationStyle: "custom",
     },
     // "tabBar": {
     //   "selectedColor": "#2E60FE",

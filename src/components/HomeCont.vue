@@ -1,146 +1,56 @@
 <template>
   <div class="page flex column">
-    <!-- 
-      首页 
-      :user-address="childUserAddress"
-    -->
-    <div style="height:6vh;">
-      <Adress-info
-        ref="adress"
-      />
-    </div>
     <div class="head flex column">
       <div
         class="input grow"
         @click="toDetail"
       >
-        输入您想查询的设备ID或者关键字
+        搜索你想找的明星
+      </div>
+      <div class="time-over">
+        离打榜结束还剩于：4天2小时32分59秒
+      </div>
+      <div class="ranking-block flex j-center">
+        <div
+          v-for=" (item, index) in rankingList"
+          :key="index"
+          class="flex_1 text-center rank-item"
+        >
+          <div class="ranking-cont">
+            <image
+              class="ranking-cont__icon"
+              src="/static/png/two.png"
+            />
+          </div>
+          <image
+            class="ranking-img"
+            src="/static/png/people.png"
+          />
+          <div class="ranking-name">
+            陈冠希
+          </div>
+          <div class="flex j-center a-center hot-cont">
+            <image
+              class="hot-icon"
+              src="/static/png/hot.png"
+              alt=""
+            />
+            <div class="hot-number">
+              2145万
+            </div>
+          </div>
+          <common-Btn />
+        </div>
       </div>
       <scroll-view
         class="flex_1"
         :scroll-y="true"
-      >
-        <div class="pannel ">
-          <div
-            class="pannel__item"
-            @click="jumpUrl(smokeType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/smoke.png"
-            />
-            <p class="my_function_item_text">
-              智能烟感
-            </p>
-            <span>安装数量</span>
-            <span class="blue">{{ smokeCountFid }} </span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(electronType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/electron.png"
-            />
-            <p class="my_function_item_text">
-              智能用电
-            </p>
-            <span>安装数量</span>
-            <span class="blue">{{ electronCountFid }}</span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(coType)"
-          >
-            <div
-              style="height: 98rpx;"
-            >
-              <image
-                class="iconfont"
-                src="/static/png/co.png"
-                style="width: 101rpx; height: 52rpx;"
-              />
-            </div>
-            <p class="my_function_item_text">
-              智能气感
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ coCountFid }}</span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(hydraulicType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/hydraulic.png"
-            />
-            <p class="my_function_item_text">
-              液压液位检测
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ hydraulicCountFid }}</span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(fireHydrantType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/fireHydrant1.png"
-              style="width: 63rpx;"
-            />
-            <p class="my_function_item_text">
-              智能消火栓
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ fireHydrantCountFid }} </span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(videoType)"
-          >
-            <image
-              
-              class="iconfont"
-              src="/static/png/video.png"
-            />
-            <p class="my_function_item_text">
-              视频监控
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ videoCountFid }} </span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(netType)"
-          >
-            <image
-              style="width: 100rpx;"
-              class="iconfont"
-              src="/static/png/iot.png"
-            />
-            <p class="my_function_item_text">
-              物联⽹关
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ netCountFid }} </span>
-            <span>个 </span>
-          </div>
-        </div>
-      </scroll-view>
+      />
     </div>
   </div>
 </template>
 <script>
-import AdressInfo from "@/components/adressInfo";
+import CommonBtn from "@/components/commonBtn";
 import shareMix from "@/mixins/mixin";
 import {
   getParams
@@ -149,7 +59,7 @@ import {
 export default {
   name: "HomeCont",
   components: {
-    AdressInfo
+    CommonBtn
   },
   mixins: [shareMix],
   data() {
@@ -173,7 +83,8 @@ export default {
       hydraulicType: '',
       fireHydrantType: '',
       videoType: '',
-      netType: ''
+      netType: '',
+      rankingList: ['', '', '']
     };
   },
   onLoad(opt) {
@@ -184,7 +95,7 @@ export default {
       });
     } else {
       this.params = wx.getStorageSync('userAddress')
-      this.getHomeData()
+      // this.getHomeData()
     }
   },
   onShow() {
@@ -287,16 +198,65 @@ export default {
 <style lang="less" scoped>
 .page {
   height: 93vh;
-  background-color: #1D7FFD;
+  background-color: #FE306B;
   .head{
     .input{
       margin:24rpx 44rpx;
-      background-color:#ffffff;
-      width: 662rpx;
-      height: 80rpx;
+      background-color:#FE97B5;
+      color: #fff;
+      width: 690rpx;
+      height: 70rpx;
       border-radius: 50rpx;
       text-align: center;
-      line-height: 80rpx;
+      line-height: 70rpx;
+    }
+    .time-over{
+      color: rgba(255,255,255,0.80);
+      text-align: center;
+      font-size: 24rpx;
+    }
+    .ranking-block{
+      box-sizing: border-box;
+      padding: 10rpx 30rpx 30rpx 30rpx;
+      width: 690rpx;
+      height: 384rpx;
+      margin: 100rpx auto 30rpx;
+      background: #fff;
+      border-radius: 20rpx;
+      .rank-item{
+        .ranking-cont{
+          height: 60rpx;
+          width: 100%;
+          &__icon{
+            padding-top: 18rpx;
+            height: 52rpx;
+            width: 60rpx;
+          }
+        }
+        
+        .ranking-img{
+          width: 100rpx;
+          height: 100rpx;
+          margin-bottom: 10rpx;
+        }
+        .ranking-name{
+          color: #000000;
+          font-weight:bold;
+          font-size:24rpx;
+        }
+        .hot-cont{
+          margin: 5rpx auto 20rpx;
+          .hot-icon{
+            width: 30rpx;
+            height: 30rpx;
+          }
+          .hot-number{
+            font-size:32rpx;
+            font-weight:bold;
+            padding-left: 8rpx;
+          }
+        }
+      }
     }
   }
   .UserList{

@@ -1,9 +1,6 @@
 <template>
   <div class="page flex column">
     <!-- 首页 -->
-    <div>
-      <Adress-info />
-    </div>
     <div class="head">
       <div
         class="input grow"
@@ -14,128 +11,12 @@
       <scroll-view
         style="{'height': '81vh'}"
         :scroll-y="true"
-      >
-        <div class="pannel ">
-          <div
-            class="pannel__item"
-            @click="jumpUrl(smokeType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/smoke.png"
-            />
-            <p class="my_function_item_text">
-              智能烟感
-            </p>
-            <span>安装数量</span>
-            <span class="blue">{{ smokeCountFid }} </span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(electronType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/electron.png"
-            />
-            <p class="my_function_item_text">
-              智能用电
-            </p>
-            <span>安装数量</span>
-            <span class="blue">{{ electronCountFid }}</span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(coType)"
-          >
-            <div
-              style="height: 98rpx;"
-            >
-              <image
-                class="iconfont"
-                src="/static/png/co.png"
-                style="width: 101rpx; height: 52rpx;"
-              />
-            </div>
-            <p class="my_function_item_text">
-              智能气感
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ coCountFid }}</span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(hydraulicType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/hydraulic.png"
-            />
-            <p class="my_function_item_text">
-              液压液位检测
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ hydraulicCountFid }}</span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(fireHydrantType)"
-          >
-            <image
-              class="iconfont"
-              src="/static/png/fireHydrant1.png"
-              style="width: 63rpx;"
-            />
-            <p class="my_function_item_text">
-              智能消火栓
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ fireHydrantCountFid }} </span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(videoType)"
-          >
-            <image
-              
-              class="iconfont"
-              src="/static/png/video.png"
-            />
-            <p class="my_function_item_text">
-              视频监控
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ videoCountFid }} </span>
-            <span>个 </span>
-          </div>
-          <div
-            class="pannel__item"
-            @click="jumpUrl(netType)"
-          >
-            <image
-              style="width: 100rpx;"
-              class="iconfont"
-              src="/static/png/iot.png"
-            />
-            <p class="my_function_item_text">
-              物联⽹关
-            </p>
-            <span>安装数量： </span>
-            <span class="blue">{{ netCountFid }} </span>
-            <span>个 </span>
-          </div>
-        </div>
-      </scroll-view>
+      />
     </div>
   </div>
 </template>
 <script>
-import AdressInfo from "@/components/adressInfo";
+// import AdressInfo from "@/components/adressInfo";
 import shareMix from "@/mixins/mixin";
 import {
   getParams
@@ -152,7 +33,7 @@ import {
 export default {
   name: "Home",
   components: {
-    AdressInfo
+    // AdressInfo
   },
   mixins: [shareMix],
   data() {
@@ -185,9 +66,9 @@ export default {
   onShow() {
     const value2 = wx.getStorageSync("userId");
     if(!value2){
-      wx.reLaunch({
-        url: `/pages/login/index`
-      });
+      // wx.reLaunch({
+      //   url: `/pages/login/index`
+      // });
     } else {
       this.params = wx.getStorageSync('userAddress')
       this.getData();
@@ -295,7 +176,7 @@ export default {
 <style lang="less" scoped>
 .page {
   height: 100vh;
-  background-color: #1D7FFD;
+  background-color: #FE306B;
   .head{
     .input{
       margin:44rpx;

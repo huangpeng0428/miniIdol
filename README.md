@@ -1,4 +1,4 @@
-# firefight_megalo
+# miniIdol
 
 ## 描述
 
@@ -6,7 +6,7 @@ a megalo project
 
 ## 作者
 
-sjh <1039460820@qq.com>
+polohuang <weixin_hp@163.com>
 
 ## 运行
 

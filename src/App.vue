@@ -25,7 +25,7 @@ export default {
       key: 'userAddress',
       success(res) {}
     })
-    this.initWebsocket()
+    // this.initWebsocket()
   },
   methods: {
     initWebsocket() {
