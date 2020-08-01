@@ -26,12 +26,23 @@ export default {
         default() {
           return false
         }
+      },
+      isAction: {
+          type: Number,
+          default() {
+            return 0
+          }   
       }
     },
     data() {
       return {
         tabList: [],
         indexAction: '',
+      }
+    },
+    watch: {
+      isAction(val) {
+        this.indexAction = val
       }
     },
     methods: {
@@ -42,7 +53,6 @@ export default {
       }
     },
     onShow() {
-      console.log(this.isIpx)
       this.tabList = [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}]
     }
 }

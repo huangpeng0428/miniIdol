@@ -14,11 +14,12 @@ Vue.use(megaloRouter, {
   mode: "strict" // strict or loose 可配置项，不配置的话默认为strict
 });
 
+const app = new Vue(App);
+app.$mount();
 Vue.prototype.$request = request;
 Vue.prototype.$day = day;
 
-const app = new Vue(App);
-app.$mount();
+Vue.prototype.$globalData = getApp().globalData
 
 export default {
   config: {
@@ -59,7 +60,7 @@ export default {
       navigationBarTitleText: "消防检测",
       navigationBarTextStyle: "white",
       backgroundColor: "#FE306B",
-      // navigationStyle: "custom",
+      navigationStyle: "custom",
     },
     // "tabBar": {
     //   "selectedColor": "#2E60FE",

@@ -4,15 +4,16 @@
       <Home-cont
         v-if="isSelected === 0"
         ref="home"
-        :is-ipx="isIpx"
       />
       <Info-cont
         v-if="isSelected === 1"
         ref="info"
+        @doBillboard="parentsIsActive"
       />
     </div>
     <div class="tab-position">
       <Index-tabbar
+        :is-action="isAction"
         :is-ipx="isIpx"
         @parentsIsActive="parentsIsActive"
       />
@@ -36,7 +37,8 @@ export default {
     return {
       isSelected: 0,
       userTitle: '',
-      isIpx: false
+      isIpx: false,
+      isAction: 0
     }
   },
   onLoad(opt) {
@@ -44,14 +46,10 @@ export default {
   onShow() {
   },
   mounted() {
-    this.getSystemInfo()
   },
   methods: {
-    getSystemInfo() {
-      const phone = wx.getSystemInfoSync()
-      this.isIpx = phone.model.search(/iPhone X/g) !== -1
-    },
     parentsIsActive(i) {
+        this.isAction = i
         this.isSelected = i
         this.$nextTick(() => {
           console.log(i)
@@ -78,7 +76,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
-  height: 100%;
   .tab-position{
       position: fixed;
       bottom: 0;

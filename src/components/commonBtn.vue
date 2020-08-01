@@ -1,5 +1,8 @@
 <template>
-  <div class="common-btn flex a-center j-center">
+  <div
+    class="common-btn flex a-center j-center"
+    :style="btnStyle"
+  >
     {{ title }}
   </div>
 </template>
@@ -7,12 +10,26 @@
 export default {
     name: "CommonBtn",
     props: {
-    title: {
-      type: String,
-      default() {
-          return '打榜'
+        title: {
+            type: String,
+            default() {
+                return '打榜1'
+            }
+        },
+        btnStyle: {
+            type: Object,
+            default() {
+                return {}
+            }
+        },
+  },
+  watch: {
+      btnTitle(val) {
+          console.log('val', val)
+      },
+      btnStyle(val) {
+          console.log('val', val)
       }
-    },
   },
 }
 </script>

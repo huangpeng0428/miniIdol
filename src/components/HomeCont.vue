@@ -1,13 +1,18 @@
 <template>
-  <scroll-view
-    class="flex_1 scroll-data"
-    :scroll-y="true"
-  >
+  <scroll-view>
+    <!-- :style="{'padding-top': isIos ? statusBarHeight + 'rpx' : ''}" -->
     <div
       class="page flex column"
-      :class="{isIpx: isIpx}"
+      :class="[isIpx ? 'isIpx' : 'mrg_bottom']"
+      :style="{'padding-top': statusBarHeight + 'rpx'}"
     >
-      <div class="head flex column">
+      <div class="page-content flex column">
+        <div
+          class="page-title"
+          :class="[isIpx ? 'page-title' : 'page-title-noIpx']"
+        >
+          榜单
+        </div>
         <div
           class="input grow"
           @click="toDetail"
@@ -88,14 +93,6 @@ export default {
     commonItem
   },
   mixins: [shareMix],
-  props:{
-    isIpx: {
-      type: Boolean,
-      default() {
-        return false
-      }
-    }
-  },
   data() {
     return {
       childUserAddress: null,
@@ -118,7 +115,10 @@ export default {
       fireHydrantType: '',
       videoType: '',
       netType: '',
-      rankingList: ['', '', '']
+      rankingList: ['', '', ''],
+      statusBarHeight: this.$globalData.statusBarHeight,
+      isIos: this.$globalData.isIos,
+      isIpx: this.$globalData.isIpx
     };
   },
   onLoad(opt) {
@@ -132,13 +132,15 @@ export default {
       // this.getHomeData()
     }
   },
-  onShow() {
-    
-  },
   watch: {
     isIpx(val) {
       console.log('val', val)
     }
+  },
+  mounted() {
+  },
+  onShow() {
+    
   },
 
   methods: {
@@ -238,9 +240,21 @@ export default {
 .page {
   height: 100%;
   background-color: #FE306B;
-  .head{
+  .page-content{
+    .page-title{
+      height: 180rpx;
+      line-height: 180rpx;
+      text-align: center;
+      font-size:36rpx;
+      font-weight:bold;
+      color: #ffffff;
+    }
+    .page-title-noIpx{
+      height: 160rpx;
+      line-height: 160rpx;
+    }
     .input{
-      margin:24rpx 44rpx;
+      margin:0rpx 44rpx 24rpx;
       background-color:#FE97B5;
       color: #fff;
       width: 690rpx;
@@ -331,7 +345,7 @@ export default {
           position: absolute;
           top: 0;
           image{
-            width: 264rpx;
+            width: 265rpx;
             height: 197rpx;
           }
         }
@@ -354,6 +368,9 @@ export default {
 }
 .isIpx {
   margin-bottom: 140rpx;
+}
+.mrg_bottom{
+  margin-bottom: 110rpx;
 }
 
 

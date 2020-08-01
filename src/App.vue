@@ -76,6 +76,9 @@ export default {
     return {
       options: {}, // 启动参数
       user: {}, // 用户信息
+      statusBarHeight: wx.getSystemInfoSync()['statusBarHeight'],
+      isIos: wx.getSystemInfoSync()['system'].search(/iOS/g) !== -1,
+      isIpx: wx.getSystemInfoSync()['model'].search(/iPhone X/g) !== -1
     };
   }
 };

@@ -10,6 +10,7 @@ export default {
     navigationBarBackgroundColor: '#FFFFFF',
     navigationBarTextStyle: 'black',
     navigationBarTitleText: '搜索',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    navigationStyle: "default",
   }
 }
