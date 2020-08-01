@@ -9,8 +9,6 @@ export default {
   },
   onLaunch(opts) {
     this.globalData.options = opts;
-    
-
   },
   onShow() {
     if (!wx.createSelectorQuery) {

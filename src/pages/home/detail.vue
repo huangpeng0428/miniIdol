@@ -1,52 +1,68 @@
 <template>
-  <div class="page">
-    <div class="head">
-      <input
-        class="input grow"
-        maxlength="40"
-        placeholder="输入您想查询的设备ID或者关键字"
-        :focus="focusInput"
-        :value="userId"
-        @input="bindUserId"
-      >
-      <div
-        v-if="showUserlist"
-        class="UserList"
-      >
-        <option
-          v-for="item in Userlist"
-          :key="item.fID"
-          class="option"
-          :value="item.fID"
+  <div class="page flex column">
+    <div class="search-content">
+      <div class="flex a-center j-between">
+        <input
+          class="input"
+          maxlength="40"
+          placeholder="搜索你想找的明星"
+          :focus="focusInput"
+          :value="userId"
+          @input="bindUserId"
         >
-          <div
-            class="option_item"
-            @click="clickProvince(item)"
-          >
-            {{ isNumber ? item.fEntityFacilityID : item.fAlias }}
-          </div> 
-        </option>
+        <div class="seacr-btn">
+          搜索
+        </div>
       </div>
     </div>
+    <!-- <scroll-view class="data-list">
+      <common-Item />
+    </scroll-view> -->
+    <scroll-view>
+      <div class="data-list">
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+        <common-Item />
+      </div>
+    </scroll-view>
   </div>
 </template>
 <script>
+import commonItem from "@/components/commonItem";
 import shareMix from "@/mixins/mixin";
 import { promisify } from "@/utils/index";
 import {
   getParams
 } from "@/utils/index";
 export default {
+  name: "Detail",
+  components: {
+    commonItem
+  },
   mixins: [shareMix],
   data() {
     return {
       userId:"", //userId,
       Userlist: [],
-      showUserlist: false,
-      isNumber: true
+      showUserlist: true,
+      focusInput: true
     }
   },
   onShow() {
+    console.log(commonItem)
   if (this.toPage) {
     let toPage = this.toPage;
   }
@@ -106,38 +122,27 @@ export default {
 <style lang="less" scoped>
 .page {
   height: 100vh;
-  background-color: #1D7FFD;
-  .head{
-    padding: 22px 0;
-    input{
-      margin:0 44rpx;
-      background-color:#ffffff;
-      width: 662rpx;
-      height: 80rpx;
-      border-radius: 50rpx;
-      text-align: center;
-      line-height: 110rpx;
+  background-color: #ffffff;
+    .search-content{
+      padding: 20rpx 30rpx;
+      height: 70rpx;
+      input{
+        background-color:#F4F4F8;
+        width: 556rpx;
+        height: 70rpx;
+        border-radius: 50rpx;
+        line-height: 70rpx;
+        padding-left: 40rpx;
+      }
+      .seacr-btn{
+        font-size:32rpx;
+        font-weight:bold;
+        color: #333333;
+      }
+    }
+    .data-list {
+      flex: 1;
     }
   }
-  .UserList{
-    background-color: #ffffff;
-    margin: 20rpx 40rpx;
-    text-align: center;
-    border-radius: 24rpx;
-
-  }
-  .option_item{
-    padding: 0 20px;
-    margin: 0;
-    line-height: 34px;
-    cursor: pointer;
-    color: #606266;
-    font-size: 14px;
-    list-style: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
 
 </style>

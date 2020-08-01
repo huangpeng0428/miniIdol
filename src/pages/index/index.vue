@@ -4,6 +4,7 @@
       <Home-cont
         v-if="isSelected === 0"
         ref="home"
+        :is-ipx="isIpx"
       />
       <Info-cont
         v-if="isSelected === 1"
@@ -11,7 +12,10 @@
       />
     </div>
     <div class="tab-position">
-      <Index-tabbar @parentsIsActive="parentsIsActive" />
+      <Index-tabbar
+        :is-ipx="isIpx"
+        @parentsIsActive="parentsIsActive"
+      />
     </div>
   </div>
 </template>
@@ -31,43 +35,50 @@ export default {
   data() {
     return {
       isSelected: 0,
-      userTitle: ''
+      userTitle: '',
+      isIpx: false
     }
   },
   onLoad(opt) {
   },
   onShow() {
-    
+  },
+  mounted() {
+    this.getSystemInfo()
   },
   methods: {
-      parentsIsActive(i) {
-          this.isSelected = i
-          this.$nextTick(() => {
-            console.log(i)
-              switch(i) {
-              case 0:
-                // if(this.userTitle === 0) {
-                //     // this.$refs.home.getHomeData()
-                // } else {
-                //     this.$refs.watchs.getvideoList()
-                // }
-                break
-              case 1:
-                // if(this.userTitle === 0) {
-                //     this.$refs.examine.getData();
-                // } else {
-                //     this.$refs.info.getUserData();
-                // }
-                break;
-            }
-          })
-      }
+    getSystemInfo() {
+      const phone = wx.getSystemInfoSync()
+      this.isIpx = phone.model.search(/iPhone X/g) !== -1
+    },
+    parentsIsActive(i) {
+        this.isSelected = i
+        this.$nextTick(() => {
+          console.log(i)
+            switch(i) {
+            case 0:
+              // if(this.userTitle === 0) {
+              //     // this.$refs.home.getHomeData()
+              // } else {
+              //     this.$refs.watchs.getvideoList()
+              // }
+              break
+            case 1:
+              // if(this.userTitle === 0) {
+              //     this.$refs.examine.getData();
+              // } else {
+              //     this.$refs.info.getUserData();
+              // }
+              break;
+          }
+        })
+    }
   },
 };
 </script>
 <style lang="less" scoped>
 .page {
-  height: 93vh;
+  height: 100%;
   .tab-position{
       position: fixed;
       bottom: 0;

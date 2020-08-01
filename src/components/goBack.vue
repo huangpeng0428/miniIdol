@@ -24,6 +24,7 @@ export default {
   .go-back{
       width: 76rpx;
       height: 76rpx;
+      box-shadow:0px 3px 10px rgba(254,151,48,0.5);
       .back-icon{
          width: 26rpx;
          height: 44rpx; 

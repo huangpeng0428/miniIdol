@@ -28,5 +28,6 @@ export default {
     text-align: center;
     line-height: 56rpx;
     margin: 0 auto;
+    box-shadow:0px 3px 10px rgba(254,151,48,0.5);
 }
 </style>

@@ -4,6 +4,7 @@
       v-for="(item, index) in tabList"
       :key="index"
       class="home-tab tab-com flex_1 flex column a-center j-center"
+      :class="{isIpx: isIpx}"
       @click="isActive(index)"
     >
       <img
@@ -19,6 +20,14 @@
 <script>
 export default {
     name: "IndexTabbar",
+    props:{
+      isIpx: {
+        type: Boolean,
+        default() {
+          return false
+        }
+      }
+    },
     data() {
       return {
         tabList: [],
@@ -33,15 +42,17 @@ export default {
       }
     },
     onShow() {
-      this.tabList = [{imgSrc: '/static/png/data.png', activeimgSrc: '/static/png/detection.png', text: '设备管理'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/mine-active.png', text: '个人中心'}]
+      console.log(this.isIpx)
+      this.tabList = [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}]
     }
 }
 </script>
 <style lang="less" scoped>
 .tab-bar{
-    height: 7vh;
+    // height: 98rpx;
     width: 750rpx;
     background: #fff;
+    padding: 20rpx 0;
     .tab-com{
       color: #D2DEEF;
       font-size: 22rpx;
@@ -50,8 +61,12 @@ export default {
         width: 44rpx;
       }
     }
+    .isIpx{
+      padding-bottom: 30rpx !important;
+
+    }
     .activeColor{
-      color: #6078EA;
+      color: #FE306B;
     }
 }
 </style>

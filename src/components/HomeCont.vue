@@ -1,56 +1,81 @@
 <template>
-  <div class="page flex column">
-    <div class="head flex column">
-      <div
-        class="input grow"
-        @click="toDetail"
-      >
-        搜索你想找的明星
-      </div>
-      <div class="time-over">
-        离打榜结束还剩于：4天2小时32分59秒
-      </div>
-      <div class="ranking-block flex j-center">
+  <scroll-view
+    class="flex_1 scroll-data"
+    :scroll-y="true"
+  >
+    <div
+      class="page flex column"
+      :class="{isIpx: isIpx}"
+    >
+      <div class="head flex column">
         <div
-          v-for=" (item, index) in rankingList"
-          :key="index"
-          class="flex_1 text-center rank-item"
+          class="input grow"
+          @click="toDetail"
         >
-          <div class="ranking-cont">
-            <image
-              class="ranking-cont__icon"
-              src="/static/png/two.png"
-            />
-          </div>
-          <image
-            class="ranking-img"
-            src="/static/png/people.png"
-          />
-          <div class="ranking-name">
-            陈冠希
-          </div>
-          <div class="flex j-center a-center hot-cont">
-            <image
-              class="hot-icon"
-              src="/static/png/hot.png"
-              alt=""
-            />
-            <div class="hot-number">
-              2145万
+          搜索你想找的明星
+        </div>
+        <div class="time-over">
+          离打榜结束还剩于：4天2小时32分59秒
+        </div>
+        <div class="ranking-content">
+          <div class="ranking-block flex j-center">
+            <div
+              v-for=" (item, index) in rankingList"
+              :key="index"
+              class="flex_1 text-center rank-item"
+              :class="[index === 1 ? 'rank-item-two' : '']"
+            >
+              <div class="ranking-cont">
+                <image
+                  class="ranking-cont__icon"
+                  :src="index === 0 ? '/static/png/two.png' : index === 1 ? '/static/png/one.png' : '/static/png/three.png'"
+                />
+              </div>
+              <image
+                class="ranking-img"
+                src="/static/png/people.png"
+              />
+              <div class="ranking-name">
+                陈冠希
+              </div>
+              <div class="flex j-center a-center hot-cont">
+                <image
+                  class="hot-icon"
+                  src="/static/png/hot.png"
+                  alt=""
+                />
+                <div
+                  class="hot-number"
+                  :style="{'color': (index === 1 ? '#FE306B' : '')}"
+                >
+                  2145万
+                </div>
+              </div>
+              <common-Btn />
+            </div>
+            <div class="bg-block">
+              <image src="/static/png/block.png" />
             </div>
           </div>
-          <common-Btn />
+        </div>
+      
+        <div class="data-list">
+          <common-Item />
+          <common-Item />
+          <common-Item />
+          <common-Item />
+          <common-Item />
+          <common-Item />
+          <common-Item />
+          <common-Item />
         </div>
       </div>
-      <scroll-view
-        class="flex_1"
-        :scroll-y="true"
-      />
     </div>
-  </div>
+  </scroll-view>
 </template>
 <script>
 import CommonBtn from "@/components/commonBtn";
+import commonItem from "@/components/commonItem";
 import shareMix from "@/mixins/mixin";
 import {
   getParams
@@ -59,9 +84,18 @@ import {
 export default {
   name: "HomeCont",
   components: {
-    CommonBtn
+    CommonBtn,
+    commonItem
   },
   mixins: [shareMix],
+  props:{
+    isIpx: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    }
+  },
   data() {
     return {
       childUserAddress: null,
@@ -100,6 +134,11 @@ export default {
   },
   onShow() {
     
+  },
+  watch: {
+    isIpx(val) {
+      console.log('val', val)
+    }
   },
 
   methods: {
@@ -197,7 +236,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
-  height: 93vh;
+  height: 100%;
   background-color: #FE306B;
   .head{
     .input{
@@ -215,88 +254,106 @@ export default {
       text-align: center;
       font-size: 24rpx;
     }
-    .ranking-block{
-      box-sizing: border-box;
-      padding: 10rpx 30rpx 30rpx 30rpx;
-      width: 690rpx;
-      height: 384rpx;
-      margin: 100rpx auto 30rpx;
-      background: #fff;
-      border-radius: 20rpx;
-      .rank-item{
-        .ranking-cont{
-          height: 60rpx;
-          width: 100%;
-          &__icon{
-            padding-top: 18rpx;
-            height: 52rpx;
-            width: 60rpx;
+    .ranking-content{
+      width: 750rpx;
+      height: 514rpx;
+      .ranking-block{
+        box-sizing: border-box;
+        padding-top: 10rpx;
+        width: 690rpx;
+        height: 384rpx;
+        margin: 100rpx auto 30rpx;
+        background: #fff;
+        border-radius: 20rpx;
+        position: relative;
+        .rank-item{
+          height: 384rpx;
+          .ranking-cont{
+            height: 60rpx;
+            width: 100%;
+            &__icon{
+              padding-top: 18rpx;
+              height: 52rpx;
+              width: 60rpx;
+            }
           }
-        }
-        
-        .ranking-img{
-          width: 100rpx;
-          height: 100rpx;
-          margin-bottom: 10rpx;
-        }
-        .ranking-name{
-          color: #000000;
-          font-weight:bold;
-          font-size:24rpx;
-        }
-        .hot-cont{
-          margin: 5rpx auto 20rpx;
-          .hot-icon{
-            width: 30rpx;
-            height: 30rpx;
+          
+          .ranking-img{
+            width: 100rpx;
+            height: 100rpx;
+            margin-bottom: 10rpx;
           }
-          .hot-number{
-            font-size:32rpx;
+          .ranking-name{
+            color: #000000;
             font-weight:bold;
-            padding-left: 8rpx;
+            font-size:24rpx;
+          }
+          .hot-cont{
+            margin: 5rpx auto 20rpx;
+            .hot-icon{
+              width: 30rpx;
+              height: 30rpx;
+            }
+            .hot-number{
+              font-size:32rpx;
+              font-weight:bold;
+              padding-left: 8rpx;
+            }
+          }
+        }
+        .rank-item-two {
+          flex: 0 1 240rpx;
+          margin-top: -50rpx;
+          z-index: 100;
+          background: #fff;
+          border-radius: 20rpx 20rpx 0 0;
+          height: 384rpx;
+          .ranking-cont{
+            height: 70rpx;
+            width: 100%;
+            background: #fff;
+            border-radius: 20rpx 20rpx 0 0;
+            &__icon{
+              padding-top: 28rpx;
+              height: 52rpx;
+              width: 60rpx;
+              z-index: -1;
+            }
+          }
+          .ranking-img{
+            width: 140rpx;
+            height: 140rpx;
+            margin-bottom: 10rpx;
+            z-index: 99999;
+          }
+        }
+        .bg-block {
+          position: absolute;
+          top: 0;
+          image{
+            width: 264rpx;
+            height: 197rpx;
           }
         }
       }
     }
-  }
-  .UserList{
-    background-color: #ffffff;
-    margin: -45rpx 80rpx 0;
-    text-align: center;
-  }
-  .pannel{
-    height: 75vh;
-    &__item{
-      display:inline-block;
-      margin:20rpx;
-      width: 332rpx;
-      height : 290rpx;
-      background: #ffffff;
-      border-radius: 24rpx;
-      text-align: center;
-      padding-top: 60rpx;
-      .blue{
-        font-size:44rpx;
-        font-family:PingFang SC;
-        font-weight:bold;
-        color:rgba(52,81,253,1);
-      }
-      p{
-        margin-top:20rpx;
-        margin-bottom: 20rpx;
-      }
-      span{
-        margin-top: 50rpx;
-        margin-left: 10rpx;
-      }
-      .iconfont{
-        width: 72rpx;
-        height:88rpx;
-        margin: 0 auto;
-        // margin-top: 50rpx;
-      }
+
+    .scroll-data{
+      height: 100%;
+      background: #fff;
     }
+    .data-list{
+      border-radius: 40rpx 40rpx 0 0 ;
+      padding-top: 24rpx;
+      // height: 500rpx;
+      background: #fff;
+      flex: 1;
+    // }
   }
+  }
+}
+.isIpx {
+  margin-bottom: 140rpx;
 }
 
 
