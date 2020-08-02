@@ -78,11 +78,13 @@
         </div>
       </div>
     </div>
+    <maskBox />
   </scroll-view>
 </template>
 <script>
 import CommonBtn from "@/components/commonBtn";
 import commonItem from "@/components/commonItem";
+import maskBox from "@/components/common-mask/mask-box";
 import shareMix from "@/mixins/mixin";
 import {
   getParams
@@ -92,7 +94,8 @@ export default {
   name: "HomeCont",
   components: {
     CommonBtn,
-    commonItem
+    commonItem,
+    maskBox
   },
   mixins: [shareMix],
   data() {
