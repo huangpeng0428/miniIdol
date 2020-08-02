@@ -27,9 +27,9 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.5.2",
-	"appid": "wxc04c020deeb8c417",
+	"appid": "ttb6aac0172990f4a5",
 	"projectname": "FireFight_megalo",
-	"miniprogramRoot": "dist-wechat/",
+	"miniprogramRoot": "dist-toutiao/",
 	"cloudfunctionTemplateRoot": "",
 	"watchOptions": {
 		"ignore": []
@@ -38,7 +38,7 @@
 		"hidedInDevtools": []
 	},
 	"scripts": {},
-	"simulatorType": "wechat",
+	"simulatorType": "toutiao",
 	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {

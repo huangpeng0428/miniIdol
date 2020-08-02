@@ -5,6 +5,7 @@ import filters from "./utils/filters";
 import megaloRouter from "megalo-router";
 import request from "./utils/request";
 import day from "./utils/day";
+// import Megalo from "megalo"
 // import './static/ezuikit.js'; //video 视频插件
 
 Vue.use(VHtmlPlugin);
@@ -21,12 +22,14 @@ Vue.prototype.$day = day;
 
 Vue.prototype.$globalData = getApp().globalData
 
+console.log(Megalo.getEnv())
+
 export default {
   config: {
     cloud: true,
     pages: [
-      "pages/home/index", // home
       "pages/index/index", //首页
+      "pages/home/index", // home
       "pages/warnpage/index", // 一键报警
       "pages/installpage/index", // 一键报警
       "pages/alarmperson/index", // 一键报警
@@ -57,37 +60,10 @@ export default {
     window: {
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#FE306B",
-      navigationBarTitleText: "消防检测",
       navigationBarTextStyle: "white",
-      backgroundColor: "#FE306B",
+      backgroundColor: "#F4F4F8",
       navigationStyle: "custom",
     },
-    // "tabBar": {
-    //   "selectedColor": "#2E60FE",
-
-    //   "list": [{
-    //     "pagePath": "pages/home/index",
-    //     "text": "设备管理",
-    //     "iconPath": "/static/png/data.png",
-    //     "selectedIconPath": "/static/png/detection.png",
-    //   },{
-    //     "pagePath": "pages/examine/index",
-    //     "text": "警报管理",
-    //     "iconPath": "/static/png/fire.png",
-    //     "selectedIconPath": "/static/png/fire_active.png",
-    //   },{
-    //     "pagePath": "pages/watchList/index",
-    //     "text": "巡更管理",
-    //     "iconPath": "/static/png/watch.png",
-    //     "selectedIconPath": "/static/png/watch_active.png",
-    //   },{
-    //     "pagePath": "pages/info/index",
-    //     "text": "个人中心",
-    //     "iconPath": "/static/png/mine.png",
-    //     "selectedIconPath": "/static/png/mine-active.png",
-    //   }
-    // ]
-    // },
     navigateToMiniProgramAppIdList: [
       "wx70677f7a3878565b",  //签约小程序
       "wx70677f7a3878565b"   //微信代付 用户还款小程序 商户号

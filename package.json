@@ -6,21 +6,23 @@
   "private": true,
   "scripts": {
     "lint": "eslint --fix --ext .js,.vue src",
-    "dev": "npm run lint && npm run dev:wechat",
-    "dev:wechat": "webpack --config ./build/webpack.config.wechat.js -w"
+    "dev": "npm run lint && npm run dev:tt",
+    "dev:wechat": "webpack --config ./build/webpack.config.wechat.js -w",
+    "dev:tt": "webpack --config ./build/webpack.config.toutiao.js -w",
+    "dev:alipay": "webpack --config ./build/webpack.config.alipay.js -w"
   },
   "keywords": [
     "vue",
     "wxapp",
     "firefight"
   ],
-  "author": "sjh <1039460820@qq.com>",
+  "author": "polo<1weix_hp@163.com.com>",
   "license": "ISC",
   "devDependencies": {
-    "@megalo/entry": "^0.1.1",
+    "@megalo/entry": "^0.1.5",
     "@megalo/px2rpx-loader": "^0.1.1",
-    "@megalo/target": "^0.5.5",
-    "@megalo/template-compiler": "^0.7.0",
+    "@megalo/target": "^0.7.6",
+    "@megalo/template-compiler": "^0.10.3-1",
     "babel-core": "6",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -46,15 +48,16 @@
     "url": "https://github.com/JH46666/firefight.git"
   },
   "dependencies": {
+    "@megalo/api": "^0.5.7",
     "@megalo/vhtml-plugin": "^0.1.2",
     "dayjs": "^1.8.0",
     "eslint-plugin-import": "^2.16.0",
     "ezuikit": "^1.0.0",
     "flyio": "^0.6.9",
-    "megalo": "^0.7.0",
-    "megalo-router": "^1.0.3",
+    "megalo": "^0.10.3-1",
+    "megalo-router": "^1.0.5",
     "mpvue-keyboard": "^1.2.2",
-    "octoparse": "0.2.1",
+    "octoparse": "^0.5.1",
     "qs": "^6.9.1"
   }
 }

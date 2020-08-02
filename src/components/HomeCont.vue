@@ -3,13 +3,13 @@
     <!-- :style="{'padding-top': isIos ? statusBarHeight + 'rpx' : ''}" -->
     <div
       class="page flex column"
-      :class="[isIpx ? 'isIpx' : 'mrg_bottom']"
+      :class="[isIpx && envType === 'wechat' ? 'isIpx' : 'mrg_bottom']"
       :style="{'padding-top': statusBarHeight + 'rpx'}"
     >
       <div class="page-content flex column">
         <div
           class="page-title"
-          :class="[isIpx ? 'page-title' : 'page-title-noIpx']"
+          :class="[isIpx && envType === 'wechat' ? 'page-title' : 'page-title-noIpx']"
         >
           榜单
         </div>
@@ -56,7 +56,9 @@
                   2145万
                 </div>
               </div>
-              <common-Btn />
+              <div @click="openModal">
+                <common-Btn />
+              </div>
             </div>
             <div class="bg-block">
               <image src="/static/png/block.png" />
@@ -118,7 +120,8 @@ export default {
       rankingList: ['', '', ''],
       statusBarHeight: this.$globalData.statusBarHeight,
       isIos: this.$globalData.isIos,
-      isIpx: this.$globalData.isIpx
+      isIpx: this.$globalData.isIpx,
+      envType: this.$globalData.envType
     };
   },
   onLoad(opt) {
@@ -232,6 +235,25 @@ export default {
           url: `/pages/equipmentlist/index?type=${type}`
         });
       }
+    },
+    openModal() {
+      console.log(111)
+      Megalo.showModal({
+      title: "请求获得定位权限",
+      content: "获得你的地理位置能够更好的为你推荐本地信息",
+      success(res) {
+        if (res.confirm) {
+          console.log("confirm, continued");
+        } else if (res.cancel) {
+          console.log("cancel, cold");
+        } else {
+          // what happend?
+        }
+      },
+      fail(res) {
+        console.log(`showModal调用失败`);
+      },
+    })
     }
   }
 };
@@ -367,7 +389,7 @@ export default {
   }
 }
 .isIpx {
-  margin-bottom: 140rpx;
+  margin-bottom: 120rpx;
 }
 .mrg_bottom{
   margin-bottom: 110rpx;

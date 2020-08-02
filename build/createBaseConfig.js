@@ -7,12 +7,16 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+const webpack = require('webpack')
+const path = require('path')
+
 const _ = require('./util');
 const appMainFile = _.resolve('src/app.js')
 const CSS_EXT = {
   wechat: 'wxss',
   alipay: 'acss',
   swan: 'css',
+  toutiao: 'ttss',
 };
 
 const px2rpxLoader = {
@@ -124,7 +128,10 @@ function createBaseConfig(platform = 'wechat') {
       new CopyWebpackPlugin([{
         from: 'src/static',
         to: 'static'
-      }])
+      }]),
+      new webpack.ProvidePlugin({
+        'Megalo': [path.resolve(`./node_modules/@megalo/api/platforms/${platform}`), 'default']
+      }),
     ],
     stats: {
       env: true,

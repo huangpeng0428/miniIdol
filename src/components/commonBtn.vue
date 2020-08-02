@@ -13,7 +13,7 @@ export default {
         title: {
             type: String,
             default() {
-                return '打榜1'
+                return '打榜'
             }
         },
         btnStyle: {

@@ -36,7 +36,6 @@
 
     <div
       class="info-idol"
-      :class="[isIpx ? 'mar_top' : '']"
     >
       <div class="flex a-center info-idol__heig">
         <image src="/static/png/idolt.png" />
@@ -140,7 +139,7 @@ export default {
   background: #F4F4F8;
   .my-info{
     background: #FE306B;
-    height: 300rpx;
+    height: 260rpx;
     padding: 0 30rpx;
     position: fixed;
     left: 0;
@@ -149,7 +148,7 @@ export default {
     z-index: 1000;
     &__flex{
       height: 200rpx;
-      margin-top: 100rpx;
+      margin-top: 60rpx;
     }
     .info-img{
       height: 110rpx;
@@ -190,7 +189,7 @@ export default {
     height: 100rpx;
     background: #fff;
     padding: 0 30rpx;
-    margin-top: 340rpx;
+    margin-top: 300rpx;
     &__heig{
       height: 100rpx;
       width: 690rpx;
@@ -207,9 +206,9 @@ export default {
       padding-left: 20rpx;
     }
   }
-  .mar_top{
-    margin-top: 360rpx;
-  }
+  // .mar_top{
+  //   margin-top: 300rpx;
+  // }
 
   .comBtn{
     .no-idol{
