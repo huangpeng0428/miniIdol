@@ -8,7 +8,6 @@ export default {
     }
   },
   onLaunch(opts) {
-    console.log(111)
     this.globalData.options = opts;
   },
   onShow() {

@@ -1,13 +1,17 @@
 <template>
   <div
     v-show="isShowMessageBox"
+    ref="messageBox"
     class="message-box"
   >
     <div
       class="mask"
       @click="cancel"
     />
-    <div class="message-content">
+    <div
+      ref="messageBox"
+      class="message-content"
+    >
       <!-- <svg class="icon" aria-hidden="true" @click="cancel">
         <use xlink:href="#icon-delete"></use>
       </svg> -->
@@ -72,7 +76,7 @@ export default {
     isShowInput: {
         type: Boolean,
         default() {
-            return false
+            return true
         }
     },
     // eslint-disable-next-line vue/require-default-prop
@@ -114,6 +118,9 @@ export default {
       promise: '' // 保存promise对象
     };
   },
+  mounted() {
+      console.log(11)
+  },
   methods: {
     showBox() {
        this.isShowMessageBox = true
@@ -124,6 +131,7 @@ export default {
     },
     cancel() {
       console.log(1)
+      this.isShowMessageBox = false
     },
     confirm() {
       this.isShowMessageBox = false
@@ -167,17 +175,18 @@ export default {
     top: 0;
     bottom: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
   }
   .message-content {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 74%;
-    padding: 20px 20px 70px;
+    margin-left: 105rpx;
+    // transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    width:540rpx;
+    padding: 40rpx 40rpx 0 40rpx;
     background: #fff;
-    border-radius: 6px;
+    border-radius: 20rpx;
+    margin-top: 480rpx;
+    position: relative;
 
     .icon {
       position: absolute;
@@ -189,32 +198,32 @@ export default {
     }
     .title {
       text-align: center;
-      font-size: 14px;
+      font-size: 32rpx;
+      font-weight:bold;
     }
     .content {
       margin-top: 10px;
     }
     .txt {
-      height: 35px;
+      height: 80rpx;
       box-sizing: border-box;
       padding: 5px 10px;
-      line-height: 20px;
-      font-size: 14px;
+      line-height: 40rpx;
+      font-size: 30rpx;
       width: 100%;
-      margin-top: 20px;
-      background: #f5f5f5;
+      margin: 30rpx 0;
+      background: #F2F2F2;
       border: none;
+      border-radius:8rpx;
     }
     .btn-group {
-      position: absolute;
-      bottom: 0;
-      left: 0;
       width: 100%;
-      font-size: 14px;
+      font-size: 32rpx;
       display: flex;
-      line-height: 50px;
-      height: 50px;
+      line-height: 88rpx;
+      height: 88rpx;
       border-top: 1px solid #f1f1f1;
+      align-items: center;
 
       &.cm-border.cm-border-top:before {
         background: #f5f5f5;
@@ -226,9 +235,10 @@ export default {
         border: none;
         border-radius: 6px;
         outline: none;
+        font-size:32rpx;
       }
       .btn-primary {
-        color: #2b61ff;
+        color: #FE9730;
       }
       &:after {
         position: relative;
@@ -244,7 +254,7 @@ export default {
 
     input {
       -webkit-appearance: none;
-      border-radius: 0;
+    //   border-radius: 0;
     }
   }
 }

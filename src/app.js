@@ -22,7 +22,6 @@ Vue.prototype.$day = day;
 
 Vue.prototype.$globalData = getApp().globalData
 
-console.log(Megalo.getEnv())
 
 export default {
   config: {

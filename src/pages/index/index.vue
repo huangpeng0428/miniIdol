@@ -35,9 +35,9 @@ export default {
   },
   data() {
     return {
-      isSelected: 0,
+      isSelected: 1,
       userTitle: '',
-      isIpx: false,
+      isIpx: this.$globalData.isIpx,
       isAction: 0
     }
   },
@@ -46,6 +46,7 @@ export default {
   onShow() {
   },
   mounted() {
+    console.log(this.isIpx)
   },
   methods: {
     parentsIsActive(i) {

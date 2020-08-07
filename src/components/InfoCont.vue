@@ -12,9 +12,9 @@
           class="info-img"
           src="/static/png/people.png"
         />
-        <div>
+        <!-- <div>
           <div class="info-name">
-            川岛芳子<span>(ID:442055)</span>
+            川岛芳子<span class="info-name__id">(ID:442055)</span>
           </div>
           <div class="flex info-title">
             <div class="flex a-center j-between info-peg">
@@ -30,7 +30,15 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
+        <button
+          class="info-btn"
+          open-type="getUserInfo"
+          lang="zh_CN"
+          @getuserinfo="getUserData"
+        >
+          登录
+        </button>
       </div>
     </div>
 
@@ -130,7 +138,96 @@ export default {
   methods: {
     doBillboard() {
       this.$emit('doBillboard', 0)
-    }  
+    },
+
+    getUserData(res) {
+      if (res.detail.errMsg == 'getUserInfo:ok') {
+        let userInfo = {
+          ...res.detail.userInfo
+        }
+        wx.login({
+          success: e => {       
+            let code = e.code;  //调用wx.login，获取登录凭证（code），并调用接口，将code发送到第三方客户端
+            this.$request.get("/app/wechat/p_authorize", {
+              encryptedData: res.detail.encryptedData,
+              v: res.detail.iv,
+              code
+            })
+            .then(result => {
+              console.log(result)
+            })
+            
+            
+            
+            // server.sendRequest({
+            //   url: 'http://39.108.15.107',       //小程序端将code传给第三方服务器端，第三方服务器端调用接口，用code换取session_key和openid
+            //   data: {
+            //     encryptedData: res.detail.encryptedData,
+            //     iv: res.detail.iv,
+            //     code: code
+            //   },
+            //   method: 'POST',
+            //   success: res => {
+            //     if (res.data.code == 200) {
+            //       userInfo = {
+            //         ...userInfo,
+            //         ...res.data.result
+            //       }
+            //       console.log(userInfo);
+            //       console.log(res.data.result)
+            //       wx.setStorageSync('userInfo', userInfo);
+            //       //授权成功
+            //       this.triggerEvent('login', {
+            //         status: 1
+            //       })
+            //       this.$Message({
+            //         content: '登录成功',
+            //         type: "success"
+            //       })
+            //       this.handleHide();
+            //     } else {
+            //       this.triggerEvent('login', {
+            //         status: 0
+            //       })
+            //       this.$Message({
+            //         content: '登录失败',
+            //         type: 'error'
+            //       });
+            //       this.handleHide();
+            //     }
+            //   }
+            // })
+          }
+        })
+      } else {
+        this.triggerEvent('login', {
+          status: 0
+        })
+        this.$Message({
+          content: '登录失败',
+          type: 'error'
+        });
+        this.handleHide();
+      }
+    },
+
+
+    // getUserData(res) {
+    //   const that = this;
+    //   console.log(res)
+    //   wx.getSetting({
+    //     success: function(res) {
+    //       if (res.authSetting["scope.userInfo"]) {
+    //         // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+    //         wx.getUserInfo({
+    //           success: function(res) {
+    //             console.log(res)
+    //           }
+    //         });
+    //       }
+    //     }.bind(this)
+    //   });
+    // },  
   }
 };
 </script>
@@ -160,6 +257,18 @@ export default {
       font-weight:bold;
       color: #FFFFFF;
       padding: 10rpx;
+      &__id{
+        font-size: 28rpx;
+        font-weight: 400;
+        padding: 0 0 8rpx 8rpx;
+      }
+    }
+    .info-btn{
+      background-color: #FE306B !important;
+      margin: 0;
+      color: #fff;
+      font-size: 36rpx;
+      padding: 0;
     }
     .info-title{
       .info-peg{

@@ -21,9 +21,9 @@ fly.config.headers["Content-Type"] = "application/x-www-form-urlencoded; charset
 function getBaseURL(env) {
   switch (env) {
     case "prod":
-      return "https://youlink.you-gogo.com:8282/IntelligentFire";
-      default :
-        return "http://192.168.118.149:10701";
+      return "http://39.108.15.107";
+    default :
+      return "http://39.108.15.107";
   }
 }
 
@@ -64,17 +64,19 @@ function uploadFile(path) {
 
 fly.interceptors.request.use(async function (request) {
   // qs参数
-  if (request.body) {
-    if(request.body.isJson) {
-      request.headers["Content-Type"] = "application/json; charset=UTF-8";
-      delete request.body.isJson
-    } else {
-      request.body['timestamp'] = new Date().getTime()
-      request.body['sign'] = mdUtils.MD5(`${ObjectToString(objKeySort(request.body))}&key=3ux94uu9y5SoihjK1BLxZbTOn5dpTAEc`)
-      request.body = Qs.stringify(request.body);
-    }
+  console.log(request)
+  request.headers["Content-Type"] = "application/json; charset=UTF-8";
+  // if (request.body) {
+  //   if(request.body.isJson) {
+  //     request.headers["Content-Type"] = "application/json; charset=UTF-8";
+  //     delete request.body.isJson
+  //   } else {
+  //     request.body['timestamp'] = new Date().getTime()
+  //     request.body['sign'] = mdUtils.MD5(`${ObjectToString(objKeySort(request.body))}&key=3ux94uu9y5SoihjK1BLxZbTOn5dpTAEc`)
+  //     request.body = Qs.stringify(request.body);
+  //   }
     
-  }
+  // }
 
   return request;
 });

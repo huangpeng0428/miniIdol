@@ -40,7 +40,10 @@
                 class="ranking-img"
                 src="/static/png/people.png"
               />
-              <div class="ranking-name">
+              <div
+                class="ranking-name"
+                @click="test"
+              >
                 陈冠希
               </div>
               <div class="flex j-center a-center hot-cont">
@@ -78,13 +81,13 @@
         </div>
       </div>
     </div>
-    <maskBox />
+    <maskBox v-if="showMask" />
   </scroll-view>
 </template>
 <script>
 import CommonBtn from "@/components/commonBtn";
 import commonItem from "@/components/commonItem";
-import maskBox from "@/components/common-mask/mask-box";
+import maskBox from "@/components/mask-box";
 import shareMix from "@/mixins/mixin";
 import {
   getParams
@@ -100,6 +103,7 @@ export default {
   mixins: [shareMix],
   data() {
     return {
+      showMask: false,
       childUserAddress: null,
       userId:"", //userId,
       Userlist: [],
@@ -144,12 +148,23 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$msgBox)
   },
   onShow() {
     
   },
 
   methods: {
+    test() {
+      this.$msgBox.showMsgBox({
+          title: '添加分类',
+          place: '请输入分类名称',
+          confirmBtnText: '确认',
+          isShowInput: true
+        }).then(val => {      // 可以接收到参数
+          console.log(val)
+        })
+    },
     toDetail(){
         wx.navigateTo({
           url: `/pages/home/detail`
@@ -241,22 +256,23 @@ export default {
     },
     openModal() {
       console.log(111)
-      Megalo.showModal({
-      title: "请求获得定位权限",
-      content: "获得你的地理位置能够更好的为你推荐本地信息",
-      success(res) {
-        if (res.confirm) {
-          console.log("confirm, continued");
-        } else if (res.cancel) {
-          console.log("cancel, cold");
-        } else {
-          // what happend?
-        }
-      },
-      fail(res) {
-        console.log(`showModal调用失败`);
-      },
-    })
+      this.showMask = true
+    //   Megalo.showModal({
+    //   title: "请求获得定位权限",
+    //   content: "获得你的地理位置能够更好的为你推荐本地信息",
+    //   success(res) {
+    //     if (res.confirm) {
+    //       console.log("confirm, continued");
+    //     } else if (res.cancel) {
+    //       console.log("cancel, cold");
+    //     } else {
+    //       // what happend?
+    //     }
+    //   },
+    //   fail(res) {
+    //     console.log(`showModal调用失败`);
+    //   },
+    // })
     }
   }
 };
