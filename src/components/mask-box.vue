@@ -108,11 +108,14 @@ export default {
     confirmBtnText: {
       type: String,
       default: '确定'
-    }
+    },
+    isShowMessageBox: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
-      isShowMessageBox: true,
       resolve: '',
       reject: '',
       promise: '' // 保存promise对象
@@ -130,32 +133,34 @@ export default {
        })
     },
     cancel() {
-      console.log(1)
       this.isShowMessageBox = false
+      this.$emit('close')
     },
     confirm() {
       this.isShowMessageBox = false
       if (this.isShowInput) {
-        this.resolve(this.inputValue);
+        // this.resolve(this.inputValue);
+        this.$emit('confirm', this.inputValue)
+        this.$emit('close')
       } else {
-        this.resolve('confirm');
+        // this.resolve('confirm');
       }
-      this.remove();
+      // this.remove();
     },
     moveDown() {
       setTimeout(function() {
         document.body.scrollTop = document.body.scrollHeight;
       }, 0);
     },
-    remove: function() {
-      setTimeout(() => {
-        this.destroy();
-      }, 300);
-    },
-    destroy: function() {
-      this.$destroy();
-      document.body.removeChild(this.$el);
-    }
+    // remove: function() {
+    //   setTimeout(() => {
+    //     this.destroy();
+    //   }, 300);
+    // },
+    // destroy: function() {
+    //   this.$destroy();
+    //   document.body.removeChild(this.$el);
+    // }
   }
 };
 </script>
@@ -236,6 +241,7 @@ export default {
         border-radius: 6px;
         outline: none;
         font-size:32rpx;
+        color: #666666;
       }
       .btn-primary {
         color: #FE9730;

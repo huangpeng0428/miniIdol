@@ -9,6 +9,7 @@
 <script>
 export default {
     name: "CommonBtn",
+    inheritAttrs: false,
     props: {
         title: {
             type: String,
@@ -24,13 +25,19 @@ export default {
         },
   },
   watch: {
-      btnTitle(val) {
-          console.log('val', val)
+      title(val) {
+        //   console.log('val', val)
       },
       btnStyle(val) {
           console.log('val', val)
       }
   },
+  mounted() {
+    //   console.log(this.$attrs['title'])
+  },
+  methods: {
+      
+  }
 }
 </script>
 <style lang="less" scoped>

@@ -1,15 +1,20 @@
 <template>
   <div class="page">
-    <div>
-      <Home-cont
-        v-if="isSelected === 0"
-        ref="home"
-      />
-      <Info-cont
-        v-if="isSelected === 1"
-        ref="info"
-        @doBillboard="parentsIsActive"
-      />
+    <div
+      class="flex page-content"
+      :style="pageStyle"
+    >
+      <div class="flex_1 page-item">
+        <Home-cont
+          ref="home"
+        />
+      </div>
+      <div class="flex_1 page-item">
+        <Info-cont
+          ref="info"
+          @doBillboard="parentsIsActive"
+        />
+      </div>
     </div>
     <div class="tab-position">
       <Index-tabbar
@@ -38,7 +43,8 @@ export default {
       isSelected: 1,
       userTitle: '',
       isIpx: this.$globalData.isIpx,
-      isAction: 0
+      isAction: 0,
+      pageStyle: {}
     }
   },
   onLoad(opt) {
@@ -53,21 +59,12 @@ export default {
         this.isAction = i
         this.isSelected = i
         this.$nextTick(() => {
-          console.log(i)
             switch(i) {
             case 0:
-              // if(this.userTitle === 0) {
-              //     // this.$refs.home.getHomeData()
-              // } else {
-              //     this.$refs.watchs.getvideoList()
-              // }
+              this.pageStyle = {'transform': `translateX(${ - i * 750  }rpx)`}
               break
             case 1:
-              // if(this.userTitle === 0) {
-              //     this.$refs.examine.getData();
-              // } else {
-              //     this.$refs.info.getUserData();
-              // }
+              this.pageStyle = {'transform': `translateX(${ - i * 750  }rpx)`}
               break;
           }
         })
@@ -77,6 +74,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
+  .page-content{
+    width: 1500rpx;
+    // transform: translateX(-750rpx);
+    .page-item{
+      width: 750rpx;
+    }
+  }
   .tab-position{
       position: fixed;
       bottom: 0;

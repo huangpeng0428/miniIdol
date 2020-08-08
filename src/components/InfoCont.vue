@@ -66,7 +66,7 @@
         :btn-style="btnStyle"
       />
     </div>
-    <scroll-view>
+    <scroll-view v-else>
       <div
         class="idol-list"
         :class="[isIpx ? 'isIpx' : 'mrg_bottom']"
@@ -114,7 +114,7 @@ export default {
   mixins: [shareMix],
   data() {
     return {
-      noIdol: false,
+      noIdol: true,
       btnTitle: '去打榜',
       btnTitleItem: '继续支持',
       btnStyle: {width: '200rpx;', height: '80rpx;', 'border-radius': '40rpx;' },
@@ -128,10 +128,8 @@ export default {
   onLoad(opt) {
   },
   onShow() {
-    console.log(this.$globalData.statusBarHeight)
   },
   mounted() {
-    console.log(this.$globalData.statusBarHeight)
     this.statusBarHeight = this.$globalData.statusBarHeight
     console.log(this.statusBarHeight)
   },
@@ -145,17 +143,23 @@ export default {
         let userInfo = {
           ...res.detail.userInfo
         }
+        console.log('res', res)
         wx.login({
           success: e => {       
             let code = e.code;  //调用wx.login，获取登录凭证（code），并调用接口，将code发送到第三方客户端
-            this.$request.get("/app/wechat/p_authorize", {
-              encryptedData: res.detail.encryptedData,
-              v: res.detail.iv,
-              code
-            })
-            .then(result => {
-              console.log(result)
-            })
+            wx.getUserInfo({
+              success: result => {
+                console.log('result', result)
+                this.$request.post("/app/wechat/p_authorize", {
+                  encryptedData: result.encryptedData,
+                  iv: result.iv,
+                  code
+                })
+                .then(result => {
+                  console.log(result)
+                })
+              }
+            });
             
             
             
@@ -234,11 +238,13 @@ export default {
 <style lang="less" scoped>
 .page {
   background: #F4F4F8;
+  height: 100vh;
+  position: relative;
   .my-info{
     background: #FE306B;
     height: 260rpx;
     padding: 0 30rpx;
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
     width: 690rpx;

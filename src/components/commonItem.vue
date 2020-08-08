@@ -2,16 +2,16 @@
   <div class="common-item flex a-center j-between">
     <div class="flex a-center">
       <div class="item-numer">
-        04
+        {{ starInfo.start_rank }}
       </div>
       <image
         class="item-img"
-        src="/static/png/people.png"
+        :src="starInfo.start_avatar"
       />
       <div>
         <div :class="[dataType === 'idol' ? 'flex' : '']">
           <div class="item-name">
-            陈冠希
+            {{ starInfo.start_name }}
           </div>
           <div class="flex">
             <image
@@ -20,7 +20,7 @@
               alt=""
             />
             <div class="item-fens">
-              4325万
+              {{ starInfo.start_hot }}
             </div>
           </div>
         </div>
@@ -32,10 +32,12 @@
         </div>
       </div>
     </div>
-    <div>
+    <div @click="doBoard">
+      <!-- v-bind="$attrs"
+        v-on="$listeners" -->
       <common-Btn
-        v-bind="$attrs"
-        v-on="$listeners"
+        :title="title"
+        :btn-style="btnStyle"
       />
     </div>
   </div>
@@ -53,15 +55,43 @@ export default {
         default() {
           return ''
         }
-      }
+      },
+      starInfo: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      title: {
+        type: String,
+        default() {
+          return '打榜'
+        }
+      },
+      btnStyle: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
     },
     data() {
         return {
 
         }
     },
+    watch: {
+      // starInfo(val) {
+      //   console.log(val)
+      // }
+    },
     mounted() {
       console.log('val')
+    },
+    methods: {
+      doBoard() {
+        this.$emit('doBoard')
+      }
     }
 }
 </script>
@@ -81,9 +111,10 @@ export default {
     font-weight:bold;
     }
     .item-img{
-    width: 90rpx;
-    height: 90rpx;
-    padding: 0 20rpx;
+      width: 90rpx;
+      height: 90rpx;
+      margin: 0 20rpx;
+      border-radius: 50%;
     }
     .item-name{
       color: #000000;

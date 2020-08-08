@@ -21,9 +21,9 @@ fly.config.headers["Content-Type"] = "application/x-www-form-urlencoded; charset
 function getBaseURL(env) {
   switch (env) {
     case "prod":
-      return "http://39.108.15.107";
+      return "http://39.108.15.107/index.php";
     default :
-      return "http://39.108.15.107";
+      return "http://39.108.15.107/index.php";
   }
 }
 
@@ -64,7 +64,6 @@ function uploadFile(path) {
 
 fly.interceptors.request.use(async function (request) {
   // qs参数
-  console.log(request)
   request.headers["Content-Type"] = "application/json; charset=UTF-8";
   // if (request.body) {
   //   if(request.body.isJson) {
@@ -84,16 +83,25 @@ fly.interceptors.request.use(async function (request) {
 fly.interceptors.response.use(
   
   response => {
-    return response.data;
+    console.log(response.data.code)
+    switch (response.data.code) {
+      case 0:
+        // return response.data;
+        return Promise.resolve(response.data);
+        break
+      case 100:
+        console.log(response.data)
+        return Promise.reject(response.data);
+        break
+    }
   },
   async err => {
     if (err.status == 502 || err.status == 404) {
       // 生产环境：服务器正在重启
     }
-    return Promise.reject(err);;
+    return Promise.reject(err);
   }
 );
 
 fly.uploadFile = uploadFile;
-fly.getUser = getUser;
 export default fly

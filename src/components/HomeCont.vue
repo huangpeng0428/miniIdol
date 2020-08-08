@@ -26,7 +26,7 @@
           <div class="ranking-block flex j-center">
             <div
               v-for=" (item, index) in rankingList"
-              :key="index"
+              :key="item.start_id"
               class="flex_1 text-center rank-item"
               :class="[index === 1 ? 'rank-item-two' : '']"
             >
@@ -38,13 +38,12 @@
               </div>
               <image
                 class="ranking-img"
-                src="/static/png/people.png"
+                :src="item.start_avatar || '/static/png/people.png'"
               />
               <div
                 class="ranking-name"
-                @click="test"
               >
-                陈冠希
+                {{ item.start_name }}
               </div>
               <div class="flex j-center a-center hot-cont">
                 <image
@@ -56,10 +55,10 @@
                   class="hot-number"
                   :style="{'color': (index === 1 ? '#FE306B' : '')}"
                 >
-                  2145万
+                  {{ item.start_hot }}
                 </div>
               </div>
-              <div @click="openModal">
+              <div @click="doBoard">
                 <common-Btn />
               </div>
             </div>
@@ -70,18 +69,15 @@
         </div>
       
         <div class="data-list">
-          <common-Item />
-          <common-Item />
-          <common-Item />
-          <common-Item />
-          <common-Item />
-          <common-Item />
-          <common-Item />
-          <common-Item />
+          <common-Item
+            v-for="item in dataList"
+            :key="item.start_id"
+            :star-info="item"
+            @doBoard="doBoard"
+          />
         </div>
       </div>
     </div>
-    <maskBox v-if="showMask" />
   </scroll-view>
 </template>
 <script>
@@ -98,7 +94,6 @@ export default {
   components: {
     CommonBtn,
     commonItem,
-    maskBox
   },
   mixins: [shareMix],
   data() {
@@ -124,7 +119,8 @@ export default {
       fireHydrantType: '',
       videoType: '',
       netType: '',
-      rankingList: ['', '', ''],
+      rankingList: [],
+      dataList: [],
       statusBarHeight: this.$globalData.statusBarHeight,
       isIos: this.$globalData.isIos,
       isIpx: this.$globalData.isIpx,
@@ -132,6 +128,7 @@ export default {
     };
   },
   onLoad(opt) {
+    console.log(opt)
     const value2 = wx.getStorageSync("userId");
     if(!value2){
       wx.reLaunch({
@@ -148,22 +145,19 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$msgBox)
+    this.fetchRankList()
   },
   onShow() {
     
   },
 
   methods: {
-    test() {
-      this.$msgBox.showMsgBox({
-          title: '添加分类',
-          place: '请输入分类名称',
-          confirmBtnText: '确认',
-          isShowInput: true
-        }).then(val => {      // 可以接收到参数
-          console.log(val)
-        })
+    fetchRankList() {
+      this.$request.post('/app/start/rank').then(res => {
+        this.rankingList = res.data.splice(0, 3)
+        this.dataList = res.data
+        this.$set(this, 'dataList', res.data)
+      })
     },
     toDetail(){
         wx.navigateTo({
@@ -226,53 +220,11 @@ export default {
              }
         })
     },
-    getHomeData(){
-      this.$refs.adress.initData()
-      this.params = wx.getStorageSync('userAddress')
-      if(this.params) {
-        this.childUserAddress = this.params.province + this.params.city + this.params.prefecture + this.params.areaName + this.params.placeName
-      }
-      let params = getParams(this.params);
-      params['userId'] = wx.getStorageSync('userId') || 2002131059424992;
-      this.$request
-      .post("/facilityInfo/countFacility.do",params)
-      .then(res => {
-       const data = res
-        this.filterdata(data)
-      })
-      .catch(err => {
-        return wx.showToast({
-          title: "获取失败",
-          icon: "none"
-        });
+    doBoard() {
+      wx.showToast({
+        title: '功能完善中...',
+        icon: "none"
       });
-    },
-    jumpUrl(type) {
-      if(type != 8) {
-        wx.navigateTo({
-          url: `/pages/equipmentlist/index?type=${type}`
-        });
-      }
-    },
-    openModal() {
-      console.log(111)
-      this.showMask = true
-    //   Megalo.showModal({
-    //   title: "请求获得定位权限",
-    //   content: "获得你的地理位置能够更好的为你推荐本地信息",
-    //   success(res) {
-    //     if (res.confirm) {
-    //       console.log("confirm, continued");
-    //     } else if (res.cancel) {
-    //       console.log("cancel, cold");
-    //     } else {
-    //       // what happend?
-    //     }
-    //   },
-    //   fail(res) {
-    //     console.log(`showModal调用失败`);
-    //   },
-    // })
     }
   }
 };
@@ -337,6 +289,7 @@ export default {
             width: 100rpx;
             height: 100rpx;
             margin-bottom: 10rpx;
+            border-radius: 50%;
           }
           .ranking-name{
             color: #000000;
