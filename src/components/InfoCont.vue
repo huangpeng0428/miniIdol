@@ -99,22 +99,45 @@
         />
       </div>
     </scroll-view>
+    <div
+      class="tab-position"
+    >
+      <div class="tab-bar flex j-between">
+        <div
+          v-for="(item, index) in tabList"
+          :key="index"
+          class="home-tab tab-com flex_1 flex column a-center j-center"
+          :class="{'tab-isIpx': isIpx}"
+          @click="parentsIsActive(index)"
+        >
+          <img
+            class="tab-com-img"
+            :src="indexAction == index? item.activeimgSrc : item.imgSrc"
+          >
+          <div :class="indexAction == index ? 'activeColor' : ''">
+            {{ item.text }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import commonBtn from "@/components/commonBtn";
 import commonItem from "@/components/commonItem";
 import shareMix from "@/mixins/mixin";
+// import IndexTabbar from "@/components/IndexTabbar";
 export default {
   name: 'InfoCont',
   components: {
     commonBtn,
-    // eslint-disable-next-line vue/no-unused-components
+    // IndexTabbar,
     commonItem
   },
   mixins: [shareMix],
   data() {
     return {
+      indexAction: 1,
       noIdol: true,
       btnTitle: '去打榜',
       btnTitleItem: '继续支持',
@@ -124,14 +147,22 @@ export default {
       statusBarHeight: this.$globalData.statusBarHeight,
       isIos: this.$globalData.isIos,
       isIpx: this.$globalData.isIpx,
-      userInfo: null
+      userInfo: null,
+      tabList: [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}],
     };
   },
   onLoad(opt) {
   },
   onShow() {
+    console.log('isAction', this.isAction)
+  },
+  watch: {
+    isAction(val) {
+      console.log(val)
+    }
   },
   mounted() {
+    console.log('isAction', this.isAction)
     if( wx.getStorageSync('userInfo' )) {
       this.userInfo = wx.getStorageSync('userInfo')
       console.log(this.userInfo)
@@ -165,47 +196,6 @@ export default {
                 })
               }
             });
-            
-            
-            
-            // server.sendRequest({
-            //   url: 'http://39.108.15.107',       //小程序端将code传给第三方服务器端，第三方服务器端调用接口，用code换取session_key和openid
-            //   data: {
-            //     encryptedData: res.detail.encryptedData,
-            //     iv: res.detail.iv,
-            //     code: code
-            //   },
-            //   method: 'POST',
-            //   success: res => {
-            //     if (res.data.code == 200) {
-            //       userInfo = {
-            //         ...userInfo,
-            //         ...res.data.result
-            //       }
-            //       console.log(userInfo);
-            //       console.log(res.data.result)
-            //       wx.setStorageSync('userInfo', userInfo);
-            //       //授权成功
-            //       this.triggerEvent('login', {
-            //         status: 1
-            //       })
-            //       this.$Message({
-            //         content: '登录成功',
-            //         type: "success"
-            //       })
-            //       this.handleHide();
-            //     } else {
-            //       this.triggerEvent('login', {
-            //         status: 0
-            //       })
-            //       this.$Message({
-            //         content: '登录失败',
-            //         type: 'error'
-            //       });
-            //       this.handleHide();
-            //     }
-            //   }
-            // })
           }
         })
       } else {
@@ -219,6 +209,10 @@ export default {
         this.handleHide();
       }
     },
+
+    parentsIsActive(i) {
+      this.$emit('jumpPage', i)
+    }
 
 
     // getUserData(res) {
@@ -350,6 +344,33 @@ export default {
   }
   .mrg_bottom{
     margin-bottom: 110rpx;
+  }
+  .tab-position{
+    position: fixed;
+    bottom: 0;
+    width: 750rpx;
+    border-top: 1px solid #D3DFEF;
+  }
+}
+.tab-bar{
+  // height: 98rpx;
+  width: 750rpx;
+  background: #fff;
+  padding: 20rpx 0;
+  .tab-com{
+    color: #D2DEEF;
+    font-size: 22rpx;
+    .tab-com-img{
+      height: 44rpx;
+      width: 44rpx;
+    }
+  }
+  .tab-isIpx{
+    padding-bottom: 30rpx !important;
+
+  }
+  .activeColor{
+    color: #FE306B;
   }
 }
 

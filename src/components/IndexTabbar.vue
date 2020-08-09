@@ -32,28 +32,33 @@ export default {
           default() {
             return 0
           }   
+      },
+      indexAction: {
+          type: Number,
+          default() {
+            return 0
+          }   
       }
     },
     data() {
       return {
-        tabList: [],
-        indexAction: '',
+        tabList: [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}],
       }
     },
     watch: {
       isAction(val) {
-        this.indexAction = val
+        // this.indexAction = val
       }
     },
     methods: {
       isActive(i) {
-        console.log(i)
-        this.indexAction = i
+        // console.log(i)
+        // this.indexAction = i
         this.$emit('parentsIsActive', i)
       }
     },
     onShow() {
-      this.tabList = [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}]
+      // this.tabList = [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}]
     }
 }
 </script>

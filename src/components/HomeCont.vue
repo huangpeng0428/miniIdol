@@ -135,12 +135,41 @@
         </div>
       </div>
     </mask-box>
+    <div
+      class="tab-position"
+    >
+      <!-- <Index-tabbar
+        :index-action="0"
+        :is-action="isAction"
+        :is-ipx="isIpx"
+        @parentsIsActive="parentsIsActive"
+      /> -->
+
+      <div class="tab-bar flex j-between">
+        <div
+          v-for="(item, index) in tabList"
+          :key="index"
+          class="home-tab tab-com flex_1 flex column a-center j-center"
+          :class="{'tab-isIpx': isIpx}"
+          @click="parentsIsActive(index)"
+        >
+          <img
+            class="tab-com-img"
+            :src="indexAction == index? item.activeimgSrc : item.imgSrc"
+          >
+          <div :class="indexAction == index ? 'activeColor' : ''">
+            {{ item.text }}
+          </div>
+        </div>
+      </div>
+    </div>
   </scroll-view>
 </template>
 <script>
 import CommonBtn from "@/components/commonBtn";
 import commonItem from "@/components/commonItem";
 import maskBox from "@/components/mask-box";
+import IndexTabbar from "@/components/IndexTabbar";
 import shareMix from "@/mixins/mixin";
 import {
   getParams
@@ -151,7 +180,8 @@ export default {
   components: {
     CommonBtn,
     commonItem,
-    maskBox
+    maskBox,
+    // IndexTabbar
   },
   mixins: [shareMix],
   data() {
@@ -163,6 +193,8 @@ export default {
       starItemData: {},
       pageno: 1,
       noMore: false,
+      indexAction: 0,
+      tabList: [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}],
       examObj:[],
       smokeCountFid:"",
       electronCountFid:"",
@@ -268,6 +300,10 @@ export default {
       this.pageno += 1
       this.fetchRankList(true)
       console.log(111)
+    },
+
+    parentsIsActive(i) {
+      this.$emit('jumpPage', i)
     }
   }
 };
@@ -462,6 +498,34 @@ export default {
 }
 .mrg_bottom{
   margin-bottom: 110rpx;
+}
+.tab-position{
+  position: fixed;
+  bottom: 0;
+  width: 750rpx;
+  border-top: 1px solid #D3DFEF;
+}
+
+.tab-bar{
+    // height: 98rpx;
+    width: 750rpx;
+    background: #fff;
+    padding: 20rpx 0;
+    .tab-com{
+      color: #D2DEEF;
+      font-size: 22rpx;
+      .tab-com-img{
+        height: 44rpx;
+        width: 44rpx;
+      }
+    }
+    .tab-isIpx{
+      padding-bottom: 30rpx !important;
+
+    }
+    .activeColor{
+      color: #FE306B;
+    }
 }
 
 

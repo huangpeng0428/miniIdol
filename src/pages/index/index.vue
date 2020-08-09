@@ -7,42 +7,25 @@
       <div class="flex_1 page-item">
         <Home-cont
           ref="home"
+          @jumpPage="parentsIsActive"
         />
-        <div
-          class="tab-position"
-        >
-          <Index-tabbar
-            :is-action="isAction"
-            :is-ipx="isIpx"
-            @parentsIsActive="parentsIsActive"
-          />
-        </div>
       </div>
       <div class="flex_1 page-item">
         <Info-cont
           ref="info"
-          @doBillboard="parentsIsActive"
+          @jumpPage="parentsIsActive"
         />
-        <div
-          class="tab-position"
-        >
-          <Index-tabbar
-            :is-action="isAction"
-            :is-ipx="isIpx"
-            @parentsIsActive="parentsIsActive"
-          />
-        </div>
       </div>
     </div>
-    <!-- <div
+    <div
       class="tab-position"
     >
-      <Index-tabbar
+      <!-- <Index-tabbar
         :is-action="isAction"
         :is-ipx="isIpx"
         @parentsIsActive="parentsIsActive"
-      />
-    </div> -->
+      /> -->
+    </div>
   </div>
 </template>
 
@@ -54,7 +37,7 @@ import InfoCont from "@/components/InfoCont";
 // import Home from "@/pages/Home";
 export default {
   components: {
-    IndexTabbar,
+    // IndexTabbar,
     HomeCont,
     InfoCont,
   },
@@ -63,7 +46,7 @@ export default {
       isSelected: 1,
       userTitle: '',
       isIpx: this.$globalData.isIpx,
-      isAction: 0,
+      isAction: 1,
       pageStyle: {}
     }
   },
@@ -76,14 +59,10 @@ export default {
   },
   methods: {
     parentsIsActive(i) {
-        this.test = false
-        this.isAction = i
-        this.isSelected = i
         this.$nextTick(() => {
             switch(i) {
             case 0:
               this.pageStyle = {'transform': `translateX(${ - i * 750  }rpx)`}
-              console.log(this.test)
               break
             case 1:
               this.pageStyle = {'transform': `translateX(${ - i * 750  }rpx)`}
