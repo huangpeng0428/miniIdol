@@ -6,7 +6,8 @@
       </div>
       <image
         class="item-img"
-        :src="starInfo.start_avatar"
+        :src="starInfo.start_avatar ? starInfo.start_avatar : '/static/png/imgLoading.png'"
+        :onerror="'/static/png/imgLoading.png'"
       />
       <div>
         <div :class="[dataType === 'idol' ? 'flex' : '']">

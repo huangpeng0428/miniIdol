@@ -12,46 +12,49 @@
       ref="messageBox"
       class="message-content"
     >
-      <!-- <svg class="icon" aria-hidden="true" @click="cancel">
+      <slot>
+        <!-- <svg class="icon" aria-hidden="true" @click="cancel">
         <use xlink:href="#icon-delete"></use>
       </svg> -->
-      <h3 class="title">
-        {{ title }}
-      </h3>
-      <p
-        v-if="isShowContent"
-        class="content c-999"
-      >
-        {{ content }}
-      </p>
-      <div>
-        <input
-          v-if="isShowInput"
-          ref="input"
-          v-model="inputValue"
-          :placeholder="place"
-          type="text"
-          class="txt"
-          @blur="moveDown"
+        <h3 class="title">
+          {{ title }}
+        </h3>
+        <p
+          v-if="isShowContent"
+          class="content c-999"
         >
-      </div>
-      <div class="btn-group flex cm-border cm-border-top lh-50">
-        <button
-          v-show="isShowCancelBtn"
-          class="bn"
-          @click="cancel"
-        >
-          {{ cancelBtnText }}
-        </button>
-        <button
-          v-show="isShowConfimrBtn"
-          class="btn-primary bn"
-          @click="confirm"
-        >
-          {{ confirmBtnText }}
-        </button>
-      </div>
+          {{ content }}
+        </p>
+        <div>
+          <input
+            v-if="isShowInput"
+            ref="input"
+            v-model="inputValue"
+            :placeholder="place"
+            type="text"
+            class="txt"
+            @blur="moveDown"
+          >
+        </div>
+        <div class="btn-group flex cm-border cm-border-top lh-50">
+          <button
+            v-show="isShowCancelBtn"
+            class="bn"
+            @click="cancel"
+          >
+            {{ cancelBtnText }}
+          </button>
+          <button
+            v-show="isShowConfimrBtn"
+            class="btn-primary bn"
+            @click="confirm"
+          >
+            {{ confirmBtnText }}
+          </button>
+        </div>
+      </slot>
     </div>
+  </div>
   </div>
 </template>
 

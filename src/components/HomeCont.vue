@@ -1,5 +1,10 @@
 <template>
-  <scroll-view>
+  <scroll-view
+    class="scroll-page"
+    lower-threshold="100"
+    scroll-y
+    @scrolltolower="scrollToLower"
+  >
     <!-- :style="{'padding-top': isIos ? statusBarHeight + 'rpx' : ''}" -->
     <div
       class="page flex column"
@@ -38,7 +43,7 @@
               </div>
               <image
                 class="ranking-img"
-                :src="item.start_avatar || '/static/png/people.png'"
+                :src="item.start_avatar || '/static/png/imgLoading.png'"
               />
               <div
                 class="ranking-name"
@@ -58,7 +63,7 @@
                   {{ item.start_hot }}
                 </div>
               </div>
-              <div @click="doBoard">
+              <div @click="doBoardMask(item)">
                 <common-Btn />
               </div>
             </div>
@@ -73,11 +78,63 @@
             v-for="item in dataList"
             :key="item.start_id"
             :star-info="item"
-            @doBoard="doBoard"
+            @doBoard="doBoardMask(item)"
           />
         </div>
       </div>
     </div>
+    <mask-box
+      :is-show-message-box="showMask"
+      @close="showMask = false"
+    >
+      <div class="mask-content">
+        <div class="mask-img">
+          <image
+            class="mask-img"
+            :src="starItemData.start_avatar ? starItemData.start_avatar : '/static/png/imgLoading.png'"
+          />
+        </div>
+        
+        <div class="mask-content__text">
+          支持一下<span class="mask-content__name">{{ starItemData.start_name }}</span>
+        </div>
+        <div class="flex j-center a-center hot-cont">
+          <image
+            class="hot-icon"
+            src="/static/png/hot.png"
+            alt=""
+          />
+          <div
+            class="hot-number"
+            :style="{'color': (index === 1 ? '#FE306B' : '')}"
+          >
+            {{ starItemData.start_hot }}
+            <!-- {{ item.start_hot }} -->
+          </div>
+        </div>
+        <div @click="doBoard">
+          <common-Btn 
+            title="看视频打榜"
+            :btn-style="btnStyle"
+          />
+        </div>
+        <div class="ticket">
+          看一次视频支持<span>5票</span>
+        </div>
+        <div class="flex j-end check-conten">
+          <checkbox-group @change="changeCb">
+            <checkbox
+              class="cb"
+              color="#FE9730"
+              :value="isTip"
+              :checked="true"
+            >
+              <span>不再提示</span>
+            </checkbox>
+          </checkbox-group>
+        </div>
+      </div>
+    </mask-box>
   </scroll-view>
 </template>
 <script>
@@ -94,6 +151,7 @@ export default {
   components: {
     CommonBtn,
     commonItem,
+    maskBox
   },
   mixins: [shareMix],
   data() {
@@ -101,8 +159,10 @@ export default {
       showMask: false,
       childUserAddress: null,
       userId:"", //userId,
-      Userlist: [],
-      showUserlist: false,
+      btnStyle: {width: '360rpx;', height: '80rpx;', 'border-radius': '40rpx;' },
+      starItemData: {},
+      pageno: 1,
+      noMore: false,
       examObj:[],
       smokeCountFid:"",
       electronCountFid:"",
@@ -148,16 +208,29 @@ export default {
     this.fetchRankList()
   },
   onShow() {
-    
+    console.log('show')
+  },
+
+  onReachBottom() {
+    console.log(111)
   },
 
   methods: {
-    fetchRankList() {
+    fetchRankList(isPage) {
       wx.showLoading()
-      this.$request.post('/app/start/rank').then(res => {
-        this.rankingList = res.data.splice(0, 3)
-        this.dataList = res.data
-        this.$set(this, 'dataList', res.data)
+      this.$request.post('/app/start/rank', {pageno: this.pageno}).then(res => {
+        if(isPage) {
+          if(!res.data.length) this.noMore = true
+          this.dataList = [...this.dataList, ...res.data]
+        } else {
+          this.rankingList = res.data.splice(0, 3)
+          this.rankingList.splice(1, 0, ...this.rankingList.splice(0, 1))
+          this.dataList = res.data
+        }
+        
+        
+        
+        // this.$set(this, 'dataList', res.data)
         wx.hideLoading()
       })
     },
@@ -166,74 +239,45 @@ export default {
           url: `/pages/home/detail`
         });
     },
-    clickProvince({fID, fType}){
-      let params = getParams(this.params)
-      params['facilityinfoId'] = fID
-      params['type'] = fType
-
-    this.$request
-      .post("/facilityInfo/queryFacilityInfo.do",params)
-      .then(res => {
-       const data = res
-       console.log('data: ', data);
-        wx.navigateTo({
-          url: `/pages/dataDetail/index?fType=${fType}&facilityinfoId=${fID}&isOnline=${data[0].isOnline}`
-        });
-      })
-      .catch(err => {
-        return wx.showToast({
-          title: "获取失败",
-          icon: "none"
-        });
-      });
-    },
-    filterdata(data){
-        data.forEach(val=>{
-             switch (val.ftype) {
-              case "0":
-                 this.smokeCountFid = val.countFid
-                 this.smokeType = val.ftype
-                 break
-              case "3":
-                 this.electronCountFid = val.countFid
-                 this.electronType = val.ftype
-                 break
-              case "1":
-                 this.coCountFid = val.countFid
-                 this.coType = val.ftype
-                 break
-              case "2":
-                 this.hydraulicCountFid = val.countFid
-                 this.hydraulicType = val.ftype
-                 break
-              case "7":
-                 this.fireHydrantCountFid = val.countFid
-                 this.fireHydrantType = val.ftype
-                 break
-              case "4":
-                 this.videoCountFid = val.countFid;
-                 this.videoType= val.ftype;
-                 break
-              case "8":
-              this.netCountFid = val.countFid;
-              this.netType= val.ftype;
-              default :
-                return ;
-             }
-        })
+    doBoardMask(data){
+      if(wx.getStorageSync('noTip')) {
+        this.doBoard()
+      } else {
+        this.starItemData = data
+        console.log(this.starItemData)
+        this.showMask = true
+      }
     },
     doBoard() {
       wx.showToast({
         title: '功能完善中...',
         icon: "none"
       });
+    },
+    changeCb(val) {
+      if(!val.detail.value.length) {
+        wx.setStorage({
+          key: 'noTip',
+          data: true
+        })
+      }
+    },
+    
+    scrollToLower() {
+      if(this.noMore) return
+      this.pageno += 1
+      this.fetchRankList(true)
+      console.log(111)
     }
   }
 };
 </script>
 <style lang="less" scoped>
+.scroll-page{
+  height: 100vh;
+}
 .page {
-  height: 100%;
+  // height: 100%;
   background-color: #FE306B;
   .page-content{
     .page-title{
@@ -361,6 +405,57 @@ export default {
     // }
   }
   }
+}
+.mask-content{
+  position: relative;
+  text-align: center;
+  .mask-img{
+    margin: -40rpx auto 10rpx;
+    image{
+      width: 100rpx;
+      height: 100rpx;
+      border-radius: 50%;
+    }
+  }
+  .hot-cont{
+    margin: 5rpx auto 40rpx;
+    .hot-icon{
+      width: 30rpx;
+      height: 30rpx;
+    }
+    .hot-number{
+      font-size:32rpx;
+      font-weight:bold;
+      padding-left: 8rpx;
+      color: #FE306B;
+    }
+  }
+  &__text{
+    color: #000000;
+    font-size: 32rpx;
+    font-weight: bold;
+  }
+  &__name{
+    color: #FE306B;
+  }
+  .ticket{
+    color: #999999;
+    font-size: 24rpx;
+    margin: 5px auto 10rpx;
+    span{
+      color: #FE306B;
+    }
+  }
+  .check-conten{
+    .cb{
+      transform: scale(0.6,0.6);
+    }
+    span{
+      color: #999;
+      font-size: 34rpx;
+    }
+  }
+
 }
 .isIpx {
   margin-bottom: 120rpx;

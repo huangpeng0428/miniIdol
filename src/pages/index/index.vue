@@ -8,21 +8,41 @@
         <Home-cont
           ref="home"
         />
+        <div
+          class="tab-position"
+        >
+          <Index-tabbar
+            :is-action="isAction"
+            :is-ipx="isIpx"
+            @parentsIsActive="parentsIsActive"
+          />
+        </div>
       </div>
       <div class="flex_1 page-item">
         <Info-cont
           ref="info"
           @doBillboard="parentsIsActive"
         />
+        <div
+          class="tab-position"
+        >
+          <Index-tabbar
+            :is-action="isAction"
+            :is-ipx="isIpx"
+            @parentsIsActive="parentsIsActive"
+          />
+        </div>
       </div>
     </div>
-    <div class="tab-position">
+    <!-- <div
+      class="tab-position"
+    >
       <Index-tabbar
         :is-action="isAction"
         :is-ipx="isIpx"
         @parentsIsActive="parentsIsActive"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -56,12 +76,14 @@ export default {
   },
   methods: {
     parentsIsActive(i) {
+        this.test = false
         this.isAction = i
         this.isSelected = i
         this.$nextTick(() => {
             switch(i) {
             case 0:
               this.pageStyle = {'transform': `translateX(${ - i * 750  }rpx)`}
+              console.log(this.test)
               break
             case 1:
               this.pageStyle = {'transform': `translateX(${ - i * 750  }rpx)`}
@@ -74,6 +96,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
+  // width: 750rpx;
+  // overflow: hidden;
   .page-content{
     width: 1500rpx;
     // transform: translateX(-750rpx);

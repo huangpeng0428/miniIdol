@@ -33,11 +33,12 @@
     </div>
     <scroll-view>
       <div
-        v-if="!!(starInfo && starInfo.start_name)"
+        v-for="item in starInfo"
+        :key="item.start_id"
         class="data-list"
       >
         <common-Item
-          :star-info="starInfo"
+          :star-info="item"
           @doBoard="doBoard"
         />
       </div>

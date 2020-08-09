@@ -10,6 +10,6 @@ export default {
     navigationBarBackgroundColor: '#FE306B',
     navigationBarTextStyle: 'white',
     navigationBarTitleText: '打榜',
-    backgroundColor: '#FFFEFB'
+    backgroundColor: '#FFFEFB',
   }
 }
