@@ -75,8 +75,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .page {
-  // width: 750rpx;
-  // overflow: hidden;
+  width: 750rpx;
+  overflow: hidden;
   .page-content{
     width: 1500rpx;
     // transform: translateX(-750rpx);
