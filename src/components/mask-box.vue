@@ -3,6 +3,7 @@
     v-show="isShowMessageBox"
     ref="messageBox"
     class="message-box"
+    catchtouchmove="preventTouchMove"
   >
     <div
       class="mask"
@@ -54,7 +55,6 @@
         </div>
       </slot>
     </div>
-  </div>
   </div>
 </template>
 
