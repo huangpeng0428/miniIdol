@@ -57,7 +57,7 @@
     <div
       v-if="noIdol"
       class="comBtn"
-      @click="doBillboard"
+      @click="parentsIsActive(0)"
     >
       <div class="no-idol">
         暂时还未帮过偶像打榜
@@ -350,27 +350,27 @@ export default {
     bottom: 0;
     width: 750rpx;
     border-top: 1px solid #D3DFEF;
-  }
-}
-.tab-bar{
-  // height: 98rpx;
-  width: 750rpx;
-  background: #fff;
-  padding: 20rpx 0;
-  .tab-com{
-    color: #D2DEEF;
-    font-size: 22rpx;
-    .tab-com-img{
-      height: 44rpx;
-      width: 44rpx;
-    }
-  }
-  .tab-isIpx{
-    padding-bottom: 30rpx !important;
+    .tab-bar{
+      // height: 98rpx;
+      width: 750rpx;
+      background: #fff;
+      padding: 20rpx 0;
+      .tab-com{
+        color: #D2DEEF;
+        font-size: 22rpx;
+        .tab-com-img{
+          height: 44rpx;
+          width: 44rpx;
+        }
+      }
+      .tab-isIpx{
+        padding-bottom: 30rpx !important;
 
-  }
-  .activeColor{
-    color: #FE306B;
+      }
+      .activeColor{
+        color: #FE306B;
+      }
+    }
   }
 }
 

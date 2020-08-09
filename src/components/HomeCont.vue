@@ -1,150 +1,145 @@
 <template>
-  <scroll-view
-    class="scroll-page"
-    lower-threshold="100"
-    scroll-y
-    @scrolltolower="scrollToLower"
-  >
-    <!-- :style="{'padding-top': isIos ? statusBarHeight + 'rpx' : ''}" -->
-    <div
-      class="page flex column"
-      :class="[isIpx && envType === 'wechat' ? 'isIpx' : 'mrg_bottom']"
-      :style="{'padding-top': statusBarHeight + 'rpx'}"
+  <div>
+    <scroll-view
+      class="scroll-page"
+      lower-threshold="100"
+      scroll-y
+      @scrolltolower="scrollToLower"
     >
-      <div class="page-content flex column">
-        <div
-          class="page-title"
-          :class="[isIpx && envType === 'wechat' ? 'page-title' : 'page-title-noIpx']"
-        >
-          榜单
-        </div>
-        <div
-          class="input grow"
-          @click="toDetail"
-        >
-          搜索你想找的明星
-        </div>
-        <div class="time-over">
-          离打榜结束还剩于：4天2小时32分59秒
-        </div>
-        <div class="ranking-content">
-          <div class="ranking-block flex j-center">
-            <div
-              v-for=" (item, index) in rankingList"
-              :key="item.start_id"
-              class="flex_1 text-center rank-item"
-              :class="[index === 1 ? 'rank-item-two' : '']"
-            >
-              <div class="ranking-cont">
-                <image
-                  class="ranking-cont__icon"
-                  :src="index === 0 ? '/static/png/two.png' : index === 1 ? '/static/png/one.png' : '/static/png/three.png'"
-                />
-              </div>
-              <image
-                class="ranking-img"
-                :src="item.start_avatar || '/static/png/imgLoading.png'"
-              />
+      <!-- :style="{'padding-top': isIos ? statusBarHeight + 'rpx' : ''}" -->
+      <div
+        class="page flex column"
+        :class="[isIpx && envType === 'wechat' ? 'isIpx' : 'mrg_bottom']"
+        :style="{'padding-top': statusBarHeight + 'rpx'}"
+      >
+        <div class="page-content flex column">
+          <div
+            class="page-title"
+            :class="[isIpx && envType === 'wechat' ? 'page-title' : 'page-title-noIpx']"
+          >
+            榜单
+          </div>
+          <div
+            class="input grow"
+            @click="toDetail"
+          >
+            搜索你想找的明星
+          </div>
+          <div class="time-over">
+            离打榜结束还剩于：4天2小时32分59秒
+          </div>
+          <div class="ranking-content">
+            <div class="ranking-block flex j-center">
               <div
-                class="ranking-name"
+                v-for=" (item, index) in rankingList"
+                :key="item.start_id"
+                class="flex_1 text-center rank-item"
+                :class="[index === 1 ? 'rank-item-two' : '']"
               >
-                {{ item.start_name }}
-              </div>
-              <div class="flex j-center a-center hot-cont">
+                <div class="ranking-cont">
+                  <image
+                    class="ranking-cont__icon"
+                    :src="index === 0 ? '/static/png/two.png' : index === 1 ? '/static/png/one.png' : '/static/png/three.png'"
+                  />
+                </div>
                 <image
-                  class="hot-icon"
-                  src="/static/png/hot.png"
-                  alt=""
+                  class="ranking-img"
+                  :src="item.start_avatar || '/static/png/imgLoading.png'"
                 />
                 <div
-                  class="hot-number"
-                  :style="{'color': (index === 1 ? '#FE306B' : '')}"
+                  class="ranking-name"
                 >
-                  {{ item.start_hot }}
+                  {{ item.start_name }}
+                </div>
+                <div class="flex j-center a-center hot-cont">
+                  <image
+                    class="hot-icon"
+                    src="/static/png/hot.png"
+                    alt=""
+                  />
+                  <div
+                    class="hot-number"
+                    :style="{'color': (index === 1 ? '#FE306B' : '')}"
+                  >
+                    {{ item.start_hot }}
+                  </div>
+                </div>
+                <div @click="doBoardMask(item)">
+                  <common-Btn />
                 </div>
               </div>
-              <div @click="doBoardMask(item)">
-                <common-Btn />
+              <div class="bg-block">
+                <image src="/static/png/block.png" />
               </div>
             </div>
-            <div class="bg-block">
-              <image src="/static/png/block.png" />
+          </div>
+      
+          <div class="data-list">
+            <common-Item
+              v-for="item in dataList"
+              :key="item.start_id"
+              :star-info="item"
+              @doBoard="doBoardMask(item)"
+            />
+          </div>
+        </div>
+      </div>
+      <mask-box
+        :is-show-message-box="showMask"
+        @close="showMask = false"
+      >
+        <div class="mask-content">
+          <div class="mask-img">
+            <image
+              class="mask-img"
+              :src="starItemData.start_avatar ? starItemData.start_avatar : '/static/png/imgLoading.png'"
+            />
+          </div>
+        
+          <div class="mask-content__text">
+            支持一下<span class="mask-content__name">{{ starItemData.start_name }}</span>
+          </div>
+          <div class="flex j-center a-center hot-cont">
+            <image
+              class="hot-icon"
+              src="/static/png/hot.png"
+              alt=""
+            />
+            <div
+              class="hot-number"
+              :style="{'color': (index === 1 ? '#FE306B' : '')}"
+            >
+              {{ starItemData.start_hot }}
+            <!-- {{ item.start_hot }} -->
             </div>
           </div>
-        </div>
-      
-        <div class="data-list">
-          <common-Item
-            v-for="item in dataList"
-            :key="item.start_id"
-            :star-info="item"
-            @doBoard="doBoardMask(item)"
-          />
-        </div>
-      </div>
-    </div>
-    <mask-box
-      :is-show-message-box="showMask"
-      @close="showMask = false"
-    >
-      <div class="mask-content">
-        <div class="mask-img">
-          <image
-            class="mask-img"
-            :src="starItemData.start_avatar ? starItemData.start_avatar : '/static/png/imgLoading.png'"
-          />
-        </div>
-        
-        <div class="mask-content__text">
-          支持一下<span class="mask-content__name">{{ starItemData.start_name }}</span>
-        </div>
-        <div class="flex j-center a-center hot-cont">
-          <image
-            class="hot-icon"
-            src="/static/png/hot.png"
-            alt=""
-          />
-          <div
-            class="hot-number"
-            :style="{'color': (index === 1 ? '#FE306B' : '')}"
-          >
-            {{ starItemData.start_hot }}
-            <!-- {{ item.start_hot }} -->
+          <div @click="doBoard">
+            <common-Btn 
+              title="看视频打榜"
+              :btn-style="btnStyle"
+            />
+          </div>
+          <div class="ticket">
+            看一次视频支持<span>5票</span>
+          </div>
+          <div class="flex j-end check-conten">
+            <checkbox-group @change="changeCb">
+              <checkbox
+                class="cb"
+                color="#FE9730"
+                :value="isTip"
+                :checked="true"
+              >
+                <span>不再提示</span>
+              </checkbox>
+            </checkbox-group>
           </div>
         </div>
-        <div @click="doBoard">
-          <common-Btn 
-            title="看视频打榜"
-            :btn-style="btnStyle"
-          />
-        </div>
-        <div class="ticket">
-          看一次视频支持<span>5票</span>
-        </div>
-        <div class="flex j-end check-conten">
-          <checkbox-group @change="changeCb">
-            <checkbox
-              class="cb"
-              color="#FE9730"
-              :value="isTip"
-              :checked="true"
-            >
-              <span>不再提示</span>
-            </checkbox>
-          </checkbox-group>
-        </div>
-      </div>
-    </mask-box>
+      </mask-box>
+    </scroll-view>
     <div
       class="tab-position"
     >
-      <!-- <Index-tabbar
-        :index-action="0"
-        :is-action="isAction"
-        :is-ipx="isIpx"
-        @parentsIsActive="parentsIsActive"
-      /> -->
-
       <div class="tab-bar flex j-between">
         <div
           v-for="(item, index) in tabList"
@@ -163,7 +158,7 @@
         </div>
       </div>
     </div>
-  </scroll-view>
+  </div>
 </template>
 <script>
 import CommonBtn from "@/components/commonBtn";
@@ -504,9 +499,8 @@ export default {
   bottom: 0;
   width: 750rpx;
   border-top: 1px solid #D3DFEF;
-}
 
-.tab-bar{
+  .tab-bar{
     // height: 98rpx;
     width: 750rpx;
     background: #fff;
@@ -526,7 +520,9 @@ export default {
     .activeColor{
       color: #FE306B;
     }
+  }
 }
+
 
 
 
