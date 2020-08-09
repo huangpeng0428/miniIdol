@@ -153,10 +153,12 @@ export default {
 
   methods: {
     fetchRankList() {
+      wx.showLoading()
       this.$request.post('/app/start/rank').then(res => {
         this.rankingList = res.data.splice(0, 3)
         this.dataList = res.data
         this.$set(this, 'dataList', res.data)
+        wx.hideLoading()
       })
     },
     toDetail(){

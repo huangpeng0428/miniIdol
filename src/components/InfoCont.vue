@@ -10,11 +10,11 @@
       <div class="my-info__flex flex a-center">
         <image
           class="info-img"
-          src="/static/png/people.png"
+          :src="userInfo ? userInfo.avatar : '/static/png/people.png'"
         />
-        <!-- <div>
+        <div v-if="userInfo">
           <div class="info-name">
-            川岛芳子<span class="info-name__id">(ID:442055)</span>
+            {{ userInfo.name }}<span class="info-name__id">(ID:{{ userInfo.uid }})</span>
           </div>
           <div class="flex info-title">
             <div class="flex a-center j-between info-peg">
@@ -30,8 +30,9 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <button
+          v-else
           class="info-btn"
           open-type="getUserInfo"
           lang="zh_CN"
@@ -122,7 +123,8 @@ export default {
       dataType: 'idol',
       statusBarHeight: this.$globalData.statusBarHeight,
       isIos: this.$globalData.isIos,
-      isIpx: this.$globalData.isIpx
+      isIpx: this.$globalData.isIpx,
+      userInfo: null
     };
   },
   onLoad(opt) {
@@ -130,6 +132,10 @@ export default {
   onShow() {
   },
   mounted() {
+    if( wx.getStorageSync('userInfo' )) {
+      this.userInfo = wx.getStorageSync('userInfo')
+      console.log(this.userInfo)
+    }
     this.statusBarHeight = this.$globalData.statusBarHeight
     console.log(this.statusBarHeight)
   },
@@ -140,23 +146,22 @@ export default {
 
     getUserData(res) {
       if (res.detail.errMsg == 'getUserInfo:ok') {
-        let userInfo = {
-          ...res.detail.userInfo
-        }
-        console.log('res', res)
         wx.login({
           success: e => {       
             let code = e.code;  //调用wx.login，获取登录凭证（code），并调用接口，将code发送到第三方客户端
             wx.getUserInfo({
               success: result => {
-                console.log('result', result)
                 this.$request.post("/app/wechat/p_authorize", {
                   encryptedData: result.encryptedData,
                   iv: result.iv,
                   code
                 })
-                .then(result => {
-                  console.log(result)
+                .then(data => {
+                  this.userInfo = data.data
+                  wx.setStorage({
+                    key: 'userInfo',
+                    data: this.userInfo
+                  })
                 })
               }
             });
@@ -256,7 +261,8 @@ export default {
     .info-img{
       height: 110rpx;
       width: 110rpx;
-      padding-right: 30rpx;
+      margin-right: 30rpx;
+      border-radius: 60rpx;
     }
     .info-name{
       font-size: 40rpx;
