@@ -84,58 +84,6 @@
           </div>
         </div>
       </div>
-      <mask-box
-        :is-show-message-box="showMask"
-        @close="showMask = false"
-      >
-        <div class="mask-content">
-          <div class="mask-img">
-            <image
-              class="mask-img"
-              :src="starItemData.start_avatar ? starItemData.start_avatar : '/static/png/imgLoading.png'"
-            />
-          </div>
-        
-          <div class="mask-content__text">
-            支持一下<span class="mask-content__name">{{ starItemData.start_name }}</span>
-          </div>
-          <div class="flex j-center a-center hot-cont">
-            <image
-              class="hot-icon"
-              src="/static/png/hot.png"
-              alt=""
-            />
-            <div
-              class="hot-number"
-              :style="{'color': (index === 1 ? '#FE306B' : '')}"
-            >
-              {{ starItemData.start_hot }}
-            <!-- {{ item.start_hot }} -->
-            </div>
-          </div>
-          <div @click="doBoard">
-            <common-Btn 
-              title="看视频打榜"
-              :btn-style="btnStyle"
-            />
-          </div>
-          <div class="ticket">
-            看一次视频支持<span>5票</span>
-          </div>
-          <div class="flex j-end check-conten">
-            <checkbox-group @change="changeCb">
-              <checkbox
-                class="cb"
-                color="#FE9730"
-                :value="isTip"
-                :checked="true"
-              >
-                <span>不再提示</span>
-              </checkbox>
-            </checkbox-group>
-          </div>
-        </div>
-      </mask-box>
     </scroll-view>
     <div
       class="tab-position"
@@ -158,6 +106,58 @@
         </div>
       </div>
     </div>
+    <mask-box
+      :is-show-message-box="showMask"
+      @close="showMask = false"
+    >
+      <div class="mask-content">
+        <div class="mask-img">
+          <image
+            class="mask-img"
+            :src="starItemData.start_avatar ? starItemData.start_avatar : '/static/png/imgLoading.png'"
+          />
+        </div>
+        
+        <div class="mask-content__text">
+          支持一下<span class="mask-content__name">{{ starItemData.start_name }}</span>
+        </div>
+        <div class="flex j-center a-center hot-cont">
+          <image
+            class="hot-icon"
+            src="/static/png/hot.png"
+            alt=""
+          />
+          <div
+            class="hot-number"
+            :style="{'color': (index === 1 ? '#FE306B' : '')}"
+          >
+            {{ starItemData.start_hot }}
+            <!-- {{ item.start_hot }} -->
+          </div>
+        </div>
+        <div @click="doBoard">
+          <common-Btn 
+            title="看视频打榜"
+            :btn-style="btnStyle"
+          />
+        </div>
+        <div class="ticket">
+          看一次视频支持<span>5票</span>
+        </div>
+        <div class="flex j-end check-conten">
+          <checkbox-group @change="changeCb">
+            <checkbox
+              class="cb"
+              color="#FE9730"
+              :value="isTip"
+              :checked="true"
+            >
+              <span>不再提示</span>
+            </checkbox>
+          </checkbox-group>
+        </div>
+      </div>
+    </mask-box>
   </div>
 </template>
 <script>
