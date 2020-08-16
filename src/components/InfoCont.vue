@@ -54,8 +54,32 @@
       </div>
     </div>
 
+    <!--  class="scroll-page"
+      :class="[isIpx ? 'scroll-page-ipx' : 'scroll-page']"
+      scroll-y-->
+    <scroll-view
+      v-if="!noIdol"
+      class="scroll-page"
+      :class="[isIpx ? 'scroll-page-ipx' : '']"
+      scroll-y
+    >
+      <div
+        class="idol-list"
+        :class="[isIpx ? 'isIpx' : 'mrg_bottom']"
+      >
+        <common-Item
+          v-for="item in dataList"
+          :key="item.start_id"
+          :data-type="dataType"
+          :btn-style="btnStyleItem"
+          :title="btnTitleItem"
+          :star-info="item"
+          @doBoard="doBoardMask(item)"
+        />
+      </div>
+    </scroll-view>
     <div
-      v-if="noIdol"
+      v-else
       class="comBtn"
       @click="parentsIsActive(0)"
     >
@@ -67,45 +91,13 @@
         :btn-style="btnStyle"
       />
     </div>
-    <scroll-view v-else>
-      <div
-        class="idol-list"
-        :class="[isIpx ? 'isIpx' : 'mrg_bottom']"
-      >
-        <common-Item
-          :data-type="dataType"
-          :btn-style="btnStyleItem"
-          :title="btnTitleItem"
-        />
-        <common-Item
-          :data-type="dataType"
-          :btn-style="btnStyleItem"
-          :title="btnTitleItem"
-        />
-        <common-Item
-          :data-type="dataType"
-          :btn-style="btnStyleItem"
-          :title="btnTitleItem"
-        />
-        <common-Item
-          :data-type="dataType"
-          :btn-style="btnStyleItem"
-          :title="btnTitleItem"
-        />
-        <common-Item
-          :data-type="dataType"
-          :btn-style="btnStyleItem"
-          :title="btnTitleItem"
-        />
-      </div>
-    </scroll-view>
     <div
       class="tab-position"
     >
       <div class="tab-bar flex j-between">
         <div
           v-for="(item, index) in tabList"
-          :key="index"
+          :key="item.start_id"
           class="home-tab tab-com flex_1 flex column a-center j-center"
           :class="{'tab-isIpx': isIpx}"
           @click="parentsIsActive(index)"
@@ -126,6 +118,7 @@
 import commonBtn from "@/components/commonBtn";
 import commonItem from "@/components/commonItem";
 import shareMix from "@/mixins/mixin";
+import Bus from '../bus'
 // import IndexTabbar from "@/components/IndexTabbar";
 export default {
   name: 'InfoCont',
@@ -149,12 +142,15 @@ export default {
       isIpx: this.$globalData.isIpx,
       userInfo: null,
       tabList: [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}],
+      dataList: [],
+      starItemData: {},
+      ticket: 1,
+      uid: ''
     };
   },
   onLoad(opt) {
   },
   onShow() {
-    console.log('isAction', this.isAction)
   },
   watch: {
     isAction(val) {
@@ -162,15 +158,73 @@ export default {
     }
   },
   mounted() {
-    console.log('isAction', this.isAction)
+    Bus.$on('getInfo', () => {
+      console.log(123)
+      if( wx.getStorageSync('userInfo' )) {
+        this.userInfo = wx.getStorageSync('userInfo')
+        this.uid = this.userInfo.uid
+        if(this.noIdol) this.getMyIdol()
+      }
+    })
+
     if( wx.getStorageSync('userInfo' )) {
       this.userInfo = wx.getStorageSync('userInfo')
-      console.log(this.userInfo)
+      this.uid = this.userInfo.uid
+      this.getMyIdol()
     }
     this.statusBarHeight = this.$globalData.statusBarHeight
-    console.log(this.statusBarHeight)
   },
   methods: {
+    getMyIdol(uid) {
+      wx.showLoading()
+      this.$request.post('/app/start/my_idol', {uid: this.uid}).then(res => {
+        // this.$set(this, 'dataList', res.data)
+        this.dataList = res.data
+        this.noIdol = !res.data.length
+
+        wx.hideLoading()
+      })
+    },
+
+    scrollToLower() {
+      if(this.noMore) return
+      this.pageno += 1
+      this.fetchRankList(true)
+      console.log(111)
+    },
+
+    doBoardMask(data) {
+      // wx.showToast({
+      //   title: '功能完善中...',
+      //   icon: "none"
+      // });
+      this.starItemData = data
+      this.doBoard()
+      
+    },
+    doBoard() {
+      wx.showLoading()
+      this.$request.post('/app/start/hit_the_rank', 
+      {
+        uid: this.uid,
+        start_id: this.starItemData.start_id,
+        ticket: this.ticket
+      }).then(res => {
+        wx.showToast({
+          title: res.msg,
+          icon: "none"
+        });
+        // this.$set(this, 'dataList', res.data)
+      }).catch(err => {
+        wx.showToast({
+          title: err.msg,
+          icon: "none"
+        });
+      }).finally(res => {
+        if(this.showMask) this.showMask = false
+        wx.hideLoading()
+      })
+    },
     doBillboard() {
       this.$emit('doBillboard', 0)
     },
@@ -235,6 +289,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.scroll-page{
+  height: 930rpx;
+}
+.scroll-page-ipx{
+  height: 1080rpx;
+  // height: 75vh;
+}
 .page {
   background: #F4F4F8;
   height: 100vh;
@@ -340,7 +401,7 @@ export default {
     margin-top: 1rpx;
   }
   .isIpx {
-    margin-bottom: 140rpx;
+    margin-bottom: 140rpx !important;
   }
   .mrg_bottom{
     margin-bottom: 110rpx;

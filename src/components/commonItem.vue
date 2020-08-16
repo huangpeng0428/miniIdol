@@ -33,12 +33,13 @@
         </div>
       </div>
     </div>
-    <div @click="doBoard">
+    <div>
       <!-- v-bind="$attrs"
         v-on="$listeners" -->
       <common-Btn
         :title="title"
         :btn-style="btnStyle"
+        @doBoard="doBoard"
       />
     </div>
   </div>

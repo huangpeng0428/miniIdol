@@ -90,7 +90,6 @@ fly.interceptors.response.use(
         return Promise.resolve(response.data);
         break
       case 100:
-        console.log(response.data)
         return Promise.reject(response.data);
         break
     }

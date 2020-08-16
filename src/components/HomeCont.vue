@@ -64,8 +64,8 @@
                     {{ item.start_hot }}
                   </div>
                 </div>
-                <div @click="doBoardMask(item)">
-                  <common-Btn />
+                <div>
+                  <common-Btn @doBoard="doBoardMask(item)" />
                 </div>
               </div>
               <div class="bg-block">
@@ -166,6 +166,7 @@ import commonItem from "@/components/commonItem";
 import maskBox from "@/components/mask-box";
 import IndexTabbar from "@/components/IndexTabbar";
 import shareMix from "@/mixins/mixin";
+import Bus from '../bus'
 import {
   getParams
 } from "@/utils/index";
@@ -190,7 +191,8 @@ export default {
       noMore: false,
       indexAction: 0,
       tabList: [{imgSrc: '/static/png/index.png', activeimgSrc: '/static/png/index-action.png', text: '榜单'},{imgSrc: '/static/png/mine.png',activeimgSrc: '/static/png/my-action.png', text: '我的'}],
-      examObj:[],
+      uid: '',
+      ticket: 1,
       smokeCountFid:"",
       electronCountFid:"",
       coCountFid:"",
@@ -215,16 +217,6 @@ export default {
     };
   },
   onLoad(opt) {
-    console.log(opt)
-    const value2 = wx.getStorageSync("userId");
-    if(!value2){
-      wx.reLaunch({
-        url: `/pages/login/index`
-      });
-    } else {
-      this.params = wx.getStorageSync('userAddress')
-      // this.getHomeData()
-    }
   },
   watch: {
     isIpx(val) {
@@ -232,10 +224,10 @@ export default {
     }
   },
   mounted() {
+    this.uid = wx.getStorageSync("userInfo").uid;
     this.fetchRankList()
   },
   onShow() {
-    console.log('show')
   },
 
   onReachBottom() {
@@ -267,19 +259,40 @@ export default {
         });
     },
     doBoardMask(data){
+      this.starItemData = data
       if(wx.getStorageSync('noTip')) {
         this.doBoard()
       } else {
-        this.starItemData = data
-        console.log(this.starItemData)
         this.showMask = true
       }
     },
     doBoard() {
-      wx.showToast({
-        title: '功能完善中...',
-        icon: "none"
-      });
+      // wx.showToast({
+      //   title: '功能完善中...',
+      //   icon: "none"
+      // });
+
+      wx.showLoading()
+      this.$request.post('/app/start/hit_the_rank', 
+      {
+        uid: this.uid,
+        start_id: this.starItemData.start_id,
+        ticket: this.ticket
+      }).then(res => {
+        wx.showToast({
+          title: res.msg,
+          icon: "none"
+        });
+        // this.$set(this, 'dataList', res.data)
+      }).catch(err => {
+        wx.showToast({
+          title: err.msg,
+          icon: "none"
+        });
+      }).finally(res => {
+        if(this.showMask) this.showMask = false
+        wx.hideLoading()
+      })
     },
     changeCb(val) {
       if(!val.detail.value.length) {
@@ -294,10 +307,10 @@ export default {
       if(this.noMore) return
       this.pageno += 1
       this.fetchRankList(true)
-      console.log(111)
     },
 
     parentsIsActive(i) {
+      Bus.$emit('getInfo',)
       this.$emit('jumpPage', i)
     }
   }

@@ -39,7 +39,7 @@
       >
         <common-Item
           :star-info="item"
-          @doBoard="doBoard"
+          @doBoard="doBoardMask(item)"
         />
       </div>
     </scroll-view>
@@ -78,24 +78,47 @@ export default {
       showStarlist: false,
       focusInput: true,
       btnTitle: '申请收录',
+      starItemData: '',
+      uid: '',
+      ticket: 1,
       btnStyle: {width: '184rpx;', height: '70rpx;', 'border-radius': '40rpx;' },
     }
   },
-  onShow() {
-    console.log(commonItem)
-  if (this.toPage) {
-    let toPage = this.toPage;
-  }
-  this.params = wx.getStorageSync('userAddress')
-  },
   mounted() {
+    this.uid = wx.getStorageSync("userInfo").uid;
   },
   methods: {
+    doBoardMask(data) {
+      // wx.showToast({
+      //   title: '功能完善中...',
+      //   icon: "none"
+      // });
+      this.starItemData = data
+      this.doBoard()
+      
+    },
     doBoard() {
-      wx.showToast({
-        title: '功能完善中...',
-        icon: "none"
-      });
+      wx.showLoading()
+      this.$request.post('/app/start/hit_the_rank', 
+      {
+        uid: this.uid,
+        start_id: this.starItemData.start_id,
+        ticket: this.ticket
+      }).then(res => {
+        wx.showToast({
+          title: res.msg,
+          icon: "none"
+        });
+        // this.$set(this, 'dataList', res.data)
+      }).catch(err => {
+        wx.showToast({
+          title: err.msg,
+          icon: "none"
+        });
+      }).finally(res => {
+        if(this.showMask) this.showMask = false
+        wx.hideLoading()
+      })
     },
     addStar(val) {
       if(!val) {
