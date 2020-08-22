@@ -206,7 +206,7 @@ export default {
       wx.showLoading()
       this.$request.post('/app/start/hit_the_rank', 
       {
-        uid: this.uid,
+        uid: this.uid || wx.getStorageSync("userInfo").uid,
         start_id: this.starItemData.start_id,
         ticket: this.ticket
       }).then(res => {
