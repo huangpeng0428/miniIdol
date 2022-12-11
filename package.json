@@ -58,6 +58,6 @@
     "megalo-router": "^1.0.5",
     "mpvue-keyboard": "^1.2.2",
     "octoparse": "^0.5.1",
-    "qs": "^6.9.1"
+    "qs": "^6.5.3"
   }
 }
